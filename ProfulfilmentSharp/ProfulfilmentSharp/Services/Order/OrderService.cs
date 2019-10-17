@@ -13,8 +13,8 @@ namespace ProfulfilmentSharp.Services.Order
 
         public virtual Entities.Order GetOrderByExternalReference(string channel, string externalReference)
         {
-            var requestUrl = PrepareRequestUrl($"test/remoteorder/order/detail.xml?channel={channel}" +
-                                               $"&externalReference={externalReference}");
+            var requestUrl = PrepareRequestUrl(
+                $"test/remoteorder/order/detail.xml?channel={channel}" + $"&externalReference={externalReference}");
             return ExecuteGetRequest<Entities.Order>(requestUrl, HttpMethod.Get);
         }
 
@@ -25,21 +25,45 @@ namespace ProfulfilmentSharp.Services.Order
             return ExecuteGetRequest<DispatchedShipments>(requestUrl, HttpMethod.Get);
         }
 
-        public virtual CreateEntityResponse CreateNewOrder(ImportOrderRequest request)
+        public virtual CreateOrUpdateEntityResponse CreateNewOrder(ImportOrderRequest request)
         {
-            var result = ExecutePostRequest<CreateEntityResponse>(new RequestContent
+            var result = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
             {
                 RequestUri = PrepareRequestUrl($"test/remoteorder/imports/importitems.xml"),
-                Content = GetOder(request),
+                Content = GetOderBody(request),
                 HttpMethod = HttpMethod.Post,
                 Headers = new Dictionary<string, string> {{"channel", "channel1"}}
             });
             return result;
         }
 
+        public virtual CreateOrUpdateEntityResponse SupplierPurchaseOrderImport(SupplierPurchaseOrderImportRequest request)
+        {
+            var result = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
+            {
+                RequestUri = PrepareRequestUrl($"test/remotewarehouse/imports/importitems.xml"),
+                Content = GetSupplierPurchaseOrderBody(request.PurchaseOrder),
+                HttpMethod = HttpMethod.Post,
+                Headers = new Dictionary<string, string> {{"organisation", "prime_penguin"}}
+            });
+            return result;
+        }
+
+        public virtual CreateOrUpdateEntityResponse ReturnImport(ReturnImportRequest request)
+        {
+            var result = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
+            {
+                RequestUri = PrepareRequestUrl($"test/remotewarehouse/imports/importitems.xml"),
+                Content = GetReturnImportBody(request),
+                HttpMethod = HttpMethod.Post,
+                Headers = new Dictionary<string, string> { { "organisation", "prime_penguin" } }
+            });
+            return result;
+        }
+
         #region Private Methods
 
-        private static string GetOder(ImportOrderRequest request)
+        private static string GetOderBody(ImportOrderRequest request)
         {
             var delivery = request.Delivery;
             var invoice = request.Invoice;
@@ -180,6 +204,71 @@ namespace ProfulfilmentSharp.Services.Order
                     shipment.deliverySuggestionCode={shipment.DeliverySuggestionCode}
                     shipment.deliverySuggestionName={shipment.DeliverySuggestionName}
                     shipment.orderItem={shipment.OrderItem}";
+        }
+
+        private static string GetSupplierPurchaseOrderBody(PurchaseOrderRequest request)
+        {
+            return $@"
+                   <imports>
+                    <import type='purchaseOrder' operation='insert'
+                    externalReference = '{request.ExternalReference}'>
+                    purchaseOrder.supplierReference = {request.SupplierReference}
+                    purchaseOrder.supplier = {request.Supplier}
+                    purchaseOrder.site = {request.Site}
+                    purchaseOrder.campaign = {request.Campaign}{GetSupplierOrderProducts(request.PurchaseOrderProducts)}
+                    </import>
+                  </imports>
+                ";
+        }
+
+        private static string GetSupplierOrderProducts(IEnumerable<PurchaseOrderProduct> products)
+        {
+            var sb = new StringBuilder();
+            foreach (var product in products)
+            {
+                var item = $@"
+                    purchaseOrderLine.1.product = {product.Product}
+                    purchaseOrderLine.1.quantity = {product.Quantity}
+                    purchaseOrderLine.1.purchaseOrder = {product.PurchaseOrder}
+                    purchaseOrderLine.1.externalReference = {product.ProductExternalReference}";
+                sb.Append(item);
+            }
+            return sb.ToString();
+        }
+
+        private static string GetReturnImportBody(ReturnImportRequest request)
+        {
+            return $@"
+                  <imports>
+                    <import type='return' operation='{request.AttributeOperation}'>
+                    return.orderReference = {request.OrderReference}
+                    return.authorisation = {request.Authorisation}
+                    return.authorised = {request.Authorised}
+                    return.type = {request.ReturnType}
+                    return.storeId = {request.StoreId}
+                    return.returnDate = {request.ReturnDate}
+                    return.user = {request.User}
+                    return.organisation = {request.Organisation}
+                    return.site = {request.Site}
+                    return.note ={request.Note}{GetReturnLineItems(request.ReturnLineItems)}
+                 </import>
+             </imports>";
+        }
+
+        private static string GetReturnLineItems(IEnumerable<ReturnLineItem> lineItems)
+        {
+            var sb = new StringBuilder();
+            foreach (var lineItem in lineItems)
+            {
+                var item = $@"
+                    returnLine.1.quantity = {lineItem.Quantity}
+                    returnLine.1.reason = {lineItem.Reason}
+                    returnLine.1.condition = {lineItem.Condition}
+                    returnLine.1.product = {lineItem.Product}
+                    returnLine.1.returnItem ={lineItem.ReturnItem}";
+                sb.Append(item);
+            }
+            return sb.ToString();
         }
 
         #endregion

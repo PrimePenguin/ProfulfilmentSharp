@@ -16,9 +16,9 @@ namespace ProfulfilmentSharp.Services.Product
             return ExecuteGetRequest<Inventory>(requestUrl, HttpMethod.Get);
         }
 
-        public virtual CreateEntityResponse CreateNewProduct(ImportProductRequest request)
+        public virtual CreateOrUpdateEntityResponse CreateOrUpdateProduct(ImportProductRequest request)
         {
-            var result = ExecutePostRequest<CreateEntityResponse>(new RequestContent
+            var result = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
             {
                 RequestUri = PrepareRequestUrl($"test/remotewarehouse/imports/importitems.xml"),
                 Content = GetProduct(request.Import),
@@ -32,30 +32,30 @@ namespace ProfulfilmentSharp.Services.Product
         {
             return $@"
                 <imports>
-                    <import type='product' operation='insert' externalReference={product._ExternalReference}> 
-                        <externalReference>{product.ExternalReference}</externalReference>
-                        <description>{product.Description}</description> 
-                        <weight>{product.Weight}</weight>
-                        <type>{product.Type}</type> 
-                        <quantityOnOrder>{product.QuantityOnOrder}</quantityOnOrder>
-                        <priceNet>{product.PriceNet}</priceNet>
-                        <priceGross>{product.PriceGross}</priceGross> 
-                        <tax>{product.Tax}</tax> 
-                        <taxCode>{product.TaxCode}</taxCode>
-                        <currency>{product.Currency}</currency> 
-                        <currencyUnits>{product.CurrencyUnits}</currencyUnits> 
-                        <costNet>{product.CostNet}</costNet> 
-                        <costGross>{product.CostGross}</costGross> 
-                        <costTax>{product.CostTax}</costTax> 
-                        <costTaxCode>{product.CostTaxCode}</costTaxCode>
-                        <costCurrency>{product.CostCurrency}</costCurrency> 
-                        <costCurrencyUnits>{product.CostCurrencyUnits}</costCurrencyUnits>
-                        <userDefined1>{product.UserDefined1}</userDefined1> 
-                        <userDefined2>{product.UserDefined2}</userDefined2> 
-                        <userDefined3>{product.UserDefined3}</userDefined3> 
-                        <userDefined4>{product.UserDefined4}</userDefined4> 
-                        <userDefined5>{product.UserDefined5}</userDefined5>  
-                        <activated>{product.Activated}</activated> 
+                    <import type='product' operation='{product.Operation}' externalReference={product._ExternalReference}> 
+                        externalReference={product.ExternalReference}
+                        description={product.Description}
+                        weight={product.Weight}
+                        type={product.Type} 
+                        quantityOnOrder={product.QuantityOnOrder}
+                        priceNet={product.PriceNet}
+                        priceGross={product.PriceGross} 
+                        tax={product.Tax} 
+                        taxCode={product.TaxCode}
+                        currency={product.Currency} 
+                        currencyUnits={product.CurrencyUnits} 
+                        costNet={product.CostNet}
+                        costGross={product.CostGross}
+                        costTax={product.CostTax} 
+                        costTaxCode={product.CostTaxCode}
+                        costCurrency={product.CostCurrency} 
+                        costCurrencyUnits={product.CostCurrencyUnits}
+                        userDefined1={product.UserDefined1} 
+                        userDefined2={product.UserDefined2} 
+                        userDefined3={product.UserDefined3} 
+                        userDefined4={product.UserDefined4} 
+                        userDefined5={product.UserDefined5}  
+                        activated={product.Activated} 
                     </import> 
                 </imports>
                 ";

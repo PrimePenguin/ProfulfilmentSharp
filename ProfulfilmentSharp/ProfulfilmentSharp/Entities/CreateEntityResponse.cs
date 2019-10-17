@@ -3,7 +3,7 @@
 namespace ProfulfilmentSharp.Entities
 {
     [XmlRoot(ElementName = "importResult")]
-    public class CreateEntityResponse
+    public class CreateOrUpdateEntityResponse
     {
         [XmlElement(ElementName = "importSuccesses")]
         public ImportSuccesses ImportSuccesses { get; set; }

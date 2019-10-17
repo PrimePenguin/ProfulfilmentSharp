@@ -14,7 +14,8 @@ namespace ProfulfilmentSharp.Entities
         [XmlAttribute(AttributeName = "externalReference")]
         public string ExternalReference { get; set; }
 
-        [XmlElement(ElementName = "state")] public string State { get; set; }
+        [XmlElement(ElementName = "state")]
+        public string State { get; set; }
 
         [XmlElement(ElementName = "validated")]
         public bool Validated { get; set; }
@@ -31,7 +32,8 @@ namespace ProfulfilmentSharp.Entities
         [XmlElement(ElementName = "totalPriceGross")]
         public float TotalPriceGross { get; set; }
 
-        [XmlElement(ElementName = "totalTax")] public float TotalTax { get; set; }
+        [XmlElement(ElementName = "totalTax")]
+        public float TotalTax { get; set; }
 
         [XmlElement(ElementName = "totalTaxCode")]
         public string TotalTaxCode { get; set; }
@@ -48,17 +50,20 @@ namespace ProfulfilmentSharp.Entities
         [XmlElement(ElementName = "shippingTaxCode")]
         public string ShippingTaxCode { get; set; }
 
-        [XmlElement(ElementName = "currency")] public string Currency { get; set; }
+        [XmlElement(ElementName = "currency")]
+        public string Currency { get; set; }
 
         [XmlElement(ElementName = "currencyUnits")]
         public string CurrencyUnits { get; set; }
 
-        [XmlElement(ElementName = "placed")] public string Placed { get; set; }
+        [XmlElement(ElementName = "placed")]
+        public string Placed { get; set; }
 
         [XmlElement(ElementName = "authorised")]
         public string Authorised { get; set; }
 
-        [XmlElement(ElementName = "source")] public string Source { get; set; }
+        [XmlElement(ElementName = "source")]
+        public string Source { get; set; }
 
         [XmlElement(ElementName = "userDefined1")]
         public string UserDefined1 { get; set; }

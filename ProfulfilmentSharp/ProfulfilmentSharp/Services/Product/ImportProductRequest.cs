@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace ProfulfilmentSharp.Entities
 {
@@ -56,6 +55,10 @@ namespace ProfulfilmentSharp.Entities
         public string UserDefined5 { get; set; }
         [XmlElement(ElementName = "activated")]
         public string Activated { get; set; }
+
+        /// <summary>
+        ///  insert or update
+        /// </summary>
         [XmlAttribute(AttributeName = "operation")]
         public string Operation { get; set; }
     }
