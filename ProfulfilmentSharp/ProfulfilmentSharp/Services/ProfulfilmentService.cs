@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -16,6 +17,7 @@ namespace ProfulfilmentSharp.Services
         protected string UserName { get; set; }
 
         protected string Password { get; set; }
+        public byte[] _data { get; set; } = null;
 
         /// <summary>
         /// Creates a new instance of <see cref="ProfulfilmentService" />.
@@ -43,43 +45,50 @@ namespace ProfulfilmentSharp.Services
             var request = WebRequest.Create(requestUri);
             request.Method = method.ToString();
             request.Credentials = GetRequestCredentials(requestUri);
-            using (var response = request.GetResponse())
-            {
-                using (var dataStream = response.GetResponseStream())
-                {
-                    using (var reader = new StreamReader(dataStream ?? throw new InvalidOperationException()))
-                    {
-                        var xmlReader = new XmlTextReader(reader);
-                        var serializer = new XmlSerializer(typeof(T));
-                        var result = (T)serializer.Deserialize(xmlReader);
-                        return result;
-                    }
-                }
-            }
+            var response = GetResponse<T>(request);
+            return response;
         }
 
         protected T ExecutePostRequest<T>(RequestContent requestContent)
         {
             var request = WebRequest.Create(requestContent.RequestUri);
-            var data = Encoding.ASCII.GetBytes(requestContent.Content);
             request.Credentials = GetRequestCredentials(requestContent.RequestUri);
             request.Method = requestContent.HttpMethod.ToString();
-            request.ContentLength = data.Length;
 
-            // add request headers if any
-            foreach (var (key, value) in requestContent.Headers) request.Headers.Add(key, value);
-
-            using (var stream = request.GetRequestStream())
+            if (requestContent.PostData != null)
             {
-                stream.Write(data, 0, data.Length);
+                _data = Encoding.ASCII.GetBytes(requestContent.PostData);
+                request.ContentLength = _data.Length;
             }
 
+            // add request headers if any
+            if (requestContent.Headers != null)
+            {
+                foreach (var (key, value) in requestContent.Headers) request.Headers.Add(key, value);
+            }
+
+            if (_data != null)
+            {
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(_data, 0, _data.Length);
+                }
+            }
+            var response = GetResponse<T>(request);
+            return response;
+        }
+
+        protected T GetResponse<T>(WebRequest request)
+        {
             using (var response = request.GetResponse())
             {
                 using (var dataStream = response.GetResponseStream())
                 {
                     using (var reader = new StreamReader(dataStream ?? throw new InvalidOperationException()))
                     {
+                        // uncomment following line to see the actual data returned from API.
+                        //var actualData = reader.ReadToEnd();  
+
                         var xmlReader = new XmlTextReader(reader);
                         var serializer = new XmlSerializer(typeof(T));
                         var result = (T)serializer.Deserialize(xmlReader);

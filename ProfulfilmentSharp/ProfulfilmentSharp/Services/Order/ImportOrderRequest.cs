@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 
 namespace ProfulfilmentSharp.Entities
@@ -11,6 +12,7 @@ namespace ProfulfilmentSharp.Entities
         [XmlAttribute(AttributeName = "operation")]
         public string Operation { get; set; }
 
+        [Required]
         [XmlAttribute(AttributeName = "externalReference")]
         public string ExternalReference { get; set; }
 

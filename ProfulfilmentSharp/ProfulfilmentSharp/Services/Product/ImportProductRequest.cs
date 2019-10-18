@@ -1,22 +1,27 @@
-﻿using System.Xml.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
 namespace ProfulfilmentSharp.Entities
 {
     [XmlRoot(ElementName = "import")]
     public class Import
     {
+        [Required]
         [XmlElement(ElementName = "externalReference")]
         public string ExternalReference { get; set; }
-        [XmlAttribute(AttributeName = "externalReference")]
-        public string _ExternalReference { get; set; }
-        [XmlElement(ElementName = "description")]
+
+        [Required]
+        [XmlAttribute(AttributeName = "description")]
         public string Description { get; set; }
         [XmlElement(ElementName = "weight")]
         public float Weight { get; set; }
+
+        /// <summary>
+        /// The ‘logical’ type of the product.Products of different types will be used by the system in different ways.
+        /// </summary>
+        [Required]
         [XmlElement(ElementName = "type")]
         public string Type { get; set; }
-        [XmlAttribute(AttributeName = "type")]
-        public string _Type { get; set; }
         [XmlElement(ElementName = "quantityOnOrder")]
         public string QuantityOnOrder { get; set; }
         [XmlElement(ElementName = "priceNet")]
@@ -57,8 +62,9 @@ namespace ProfulfilmentSharp.Entities
         public string Activated { get; set; }
 
         /// <summary>
-        ///  insert or update
+        ///  Indicates the operation going to be performed : insert or update
         /// </summary>
+        [Required]
         [XmlAttribute(AttributeName = "operation")]
         public string Operation { get; set; }
     }

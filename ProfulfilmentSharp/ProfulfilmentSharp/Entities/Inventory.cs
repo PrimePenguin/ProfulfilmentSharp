@@ -6,6 +6,6 @@ namespace ProfulfilmentSharp.Entities
     [XmlRoot(ElementName = "inventory")]
     public class Inventory
     {
-        [XmlElement(ElementName = "product")] public List<Product> Product { get; set; }
+        [XmlElement(ElementName = "product")] public List<Product> Products { get; set; }
     }
 }

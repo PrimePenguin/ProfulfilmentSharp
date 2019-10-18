@@ -12,4 +12,15 @@ namespace ProfulfilmentSharp.Entities
         [XmlAttribute(AttributeName = "state")]
         public string State { get; set; }
     }
+
+    public class OrderRootResponse
+    {
+        public OrderRootResponse()
+        {
+            Order = null;
+        }
+        public string ValidationError { get; set; }
+        public bool IsValid { get; set; }
+        public Order Order { get; set; }
+    }
 }
