@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentResponses
 {
     [XmlRoot(ElementName = "importResult")]
     public class CreateOrUpdateEntityResponse
@@ -22,7 +21,6 @@ namespace ProfulfilmentSharp.Entities
             CreateOrUpdateEntityResponse = null;
         }
         public string ValidationError { get; set; }
-        public bool IsValid { get; set; }
         public CreateOrUpdateEntityResponse CreateOrUpdateEntityResponse { get; set; }
     }
 }

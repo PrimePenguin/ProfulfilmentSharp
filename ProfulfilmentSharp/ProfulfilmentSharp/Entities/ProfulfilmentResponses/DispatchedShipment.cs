@@ -1,6 +1,7 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
 {
     [XmlRoot(ElementName = "shipment")]
     public class DispatchedShipment
@@ -23,5 +24,26 @@ namespace ProfulfilmentSharp.Entities
         public string Completed { get; set; }
         [XmlElement(ElementName = "packages")]
         public Packages Packages { get; set; }
+
+        [XmlElement(ElementName = "orderLines")]
+        public DispatchedOrderLines OrderLines { get; set; }
+    }
+
+    [XmlRoot(ElementName = "orderLines")]
+    public class DispatchedOrderLines
+    {
+        [XmlElement(ElementName = "orderLine")]
+        public List<DispatchedOrderLine> OrderLines { get; set; }
+    }
+
+    [XmlRoot(ElementName = "orderLine")]    
+    public class DispatchedOrderLine
+    {
+        [XmlElement(ElementName = "productReference")]
+        public string ProductReference { get; set; }
+        [XmlElement(ElementName = "quantity")]
+        public string Quantity { get; set; }
+        [XmlElement(ElementName = "thirdPartyReference")]
+        public string ThirdPartyReference { get; set; }
     }
 }

@@ -20,7 +20,6 @@ namespace ProfulfilmentSharp.Entities
             Order = null;
         }
         public string ValidationError { get; set; }
-        public bool IsValid { get; set; }
         public Order Order { get; set; }
     }
 }

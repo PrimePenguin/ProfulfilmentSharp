@@ -4,15 +4,24 @@ namespace ProfulfilmentSharp.Entities
 {
     public class ImportOrderShipment
     {
+        /// <summary>
+        /// Can be omitted, in which case, order reference will typically be used to provide implicit value.
+        /// </summary>
         [XmlElement(ElementName = "shipment.externalReference")]
         public string ProductExternalReference { get; set; }
 
         [XmlElement(ElementName = "shipment.state")]
         public string State { get; set; }
 
+        /// <summary>
+        /// The earliest date the shipment should be shipped
+        /// </summary>
         [XmlElement(ElementName = "shipment.earliestShipDate")]
         public string EarliestShipDate { get; set; }
 
+        /// <summary>
+        /// Any special instruction to be given to courier as part of the delivery.
+        /// </summary>
         [XmlElement(ElementName = "shipment.deliveryInstruction")]
         public string DeliveryInstruction { get; set; }
 
@@ -25,6 +34,9 @@ namespace ProfulfilmentSharp.Entities
         [XmlElement(ElementName = "shipment.weight")]
         public float Weight { get; set; }
 
+        /// <summary>
+        /// The weight unit, which defaults to ‘gram’
+        /// </summary>
         [XmlElement(ElementName = "shipment.weightUnits")]
         public string WeightUnits { get; set; }
 
@@ -74,7 +86,7 @@ namespace ProfulfilmentSharp.Entities
         public string FaxNumber { get; set; }
 
         [XmlElement(ElementName = "shipment.companyName")]
-        public string CompanyName { get; set; }
+        public string CompanycourierName { get; set; }
 
         [XmlElement(ElementName = "shipment.userDefined1")]
         public string UserDefined1 { get; set; }
@@ -91,9 +103,15 @@ namespace ProfulfilmentSharp.Entities
         [XmlElement(ElementName = "shipment.userDefined5")]
         public string UserDefined5 { get; set; }
 
+        /// <summary>
+        /// A hint or suggestion to the system which can be used to help determine the actual courier and service. combination to be used
+        /// </summary>
         [XmlElement(ElementName = "shipment.deliverySuggestionCode")]
         public string DeliverySuggestionCode { get; set; }
 
+        /// <summary>
+        /// The name associated with the delivery suggestion code.
+        /// </summary>
         [XmlElement(ElementName = "shipment.deliverySuggestionName")]
         public string DeliverySuggestionName { get; set; }
 

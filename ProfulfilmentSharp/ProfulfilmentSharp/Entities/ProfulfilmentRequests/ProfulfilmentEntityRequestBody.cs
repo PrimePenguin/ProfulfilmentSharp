@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
 {
-    public static class EntityRequestBody
+    public static class ProfulfilmentEntityRequestBody
     {
-        public static string GetProduct(Import product)
+        public static string Product(Import product)
         {
             return $@"
                 <imports>
-                    <import type='product' operation='{product.Operation}' externalReference={product.ExternalReference}> 
+                    <import type='product' operation='{product.Operation}' externalReference='{product.ExternalReference}'> 
                         externalReference={product.ExternalReference}
                         description={product.Description}
                         weight={product.Weight}
+                        weightUnits={product.WeightUnits} 
                         type={product.Type} 
                         quantityOnOrder={product.QuantityOnOrder}
                         priceNet={product.PriceNet}
@@ -38,7 +39,7 @@ namespace ProfulfilmentSharp.Entities
                 ";
         }
 
-        public static string GetOderBody(ImportOrderRequest request)
+        public static string Order(ImportOrderRequest request)
         {
             var delivery = request.Delivery;
             var invoice = request.Invoice;
@@ -68,8 +69,7 @@ namespace ProfulfilmentSharp.Entities
                     userDefined2={request.UserDefined2}
                     userDefined3={request.UserDefined3}
                     userDefined4={request.UserDefined4}
-                    userDefined5={request.UserDefined5}                    {GetDeliveryDetails(delivery)}                    {GetInvoiceDetails(invoice)}                    {GetShipmentDetails(shipment)}
-                    {GetOrderLineItems(request.LineItems)}
+                    userDefined5={request.UserDefined5}                    {GetDeliveryDetails(delivery)}{GetInvoiceDetails(invoice)}{GetShipmentDetails(shipment)}{GetOrderLineItems(request.LineItems)}
                     </import> 
                 </imports>
                 ";
@@ -78,34 +78,35 @@ namespace ProfulfilmentSharp.Entities
         public static string GetOrderLineItems(IEnumerable<ImportOrderLineItem> lineItems)
         {
             var sb = new StringBuilder();
+            var itemCount = 1;
             foreach (var lineItem in lineItems)
             {
-                var item =
-                    $@"
-                    orderLine.1.product.externalReference={lineItem.ProductExternalReference}
-                    orderLine.1.quantity={lineItem.Quantity}
-                    orderLine.1.state={lineItem.State}
-                    orderLine.1.totalPriceNet={lineItem.TotalPriceNet}
-                    orderLine.1.totalPriceGross={lineItem.TotalPriceGross}
-                    orderLine.1.totalTax={lineItem.TotalTax}
-                    orderLine.1.totalTaxCode={lineItem.TotalTaxCode}                    orderLine.1.unitPriceNet={lineItem.UnitPriceNet}
-                    orderLine.1.unitPriceGross={lineItem.UnitPriceGross}
-                    orderLine.1.unitTax={lineItem.UnitTax}
-                    orderLine.1.unitTaxCode={lineItem.UnitTaxCode}
-                    orderLine.1.userDefined1={lineItem.UserDefined1}
-                    orderLine.1.userDefined2={lineItem.UserDefined2}
-                    orderLine.1.userDefined3={lineItem.UserDefined3}
-                    orderLine.1.userDefined4={lineItem.UserDefined4}
-                    orderLine.1.userDefined5={lineItem.UserDefined5}                                    orderLine.1.shipment={lineItem.Shipment}
-                    orderAttribute.1.name={lineItem.AttributeName}
-                    orderAttribute.1.title={lineItem.AttributeTitle}
-                    orderAttribute.1.value={lineItem.AttributeValue}
-                    orderAttribute.1.orderItem={lineItem.OrderItem}";
+                var item = $@"
+                    orderLine.{itemCount}.product.externalReference={lineItem.ProductExternalReference}
+                    orderLine.{itemCount}.quantity={lineItem.Quantity}
+                    orderLine.{itemCount}.state={lineItem.State}
+                    orderLine.{itemCount}.totalPriceNet={lineItem.TotalPriceNet}
+                    orderLine.{itemCount}.totalPriceGross={lineItem.TotalPriceGross}
+                    orderLine.{itemCount}.totalTax={lineItem.TotalTax}
+                    orderLine.{itemCount}.totalTaxCode={lineItem.TotalTaxCode}                    orderLine.{itemCount}.unitPriceNet={lineItem.UnitPriceNet}
+                    orderLine.{itemCount}.unitPriceGross={lineItem.UnitPriceGross}
+                    orderLine.{itemCount}.unitTax={lineItem.UnitTax}
+                    orderLine.{itemCount}.unitTaxCode={lineItem.UnitTaxCode}
+                    orderLine.{itemCount}.userDefined1={lineItem.UserDefined1}
+                    orderLine.{itemCount}.userDefined2={lineItem.UserDefined2}
+                    orderLine.{itemCount}.userDefined3={lineItem.UserDefined3}
+                    orderLine.{itemCount}.userDefined4={lineItem.UserDefined4}
+                    orderLine.{itemCount}.userDefined5={lineItem.UserDefined5}                                    orderLine.{itemCount}.shipment={lineItem.Shipment}
+                    orderAttribute.{itemCount}.name={lineItem.AttributeName}
+                    orderAttribute.{itemCount}.title={lineItem.AttributeTitle}
+                    orderAttribute.{itemCount}.value={lineItem.AttributeValue}
+                    orderAttribute.{itemCount}.orderItem={lineItem.OrderItem}";
                 sb.Append(item);
+                itemCount++;
             }
             return sb.ToString();
         }
-  
+
         public static string GetDeliveryDetails(ImportOrderDelivery delivery)
         {
             return $@"
@@ -171,7 +172,7 @@ namespace ProfulfilmentSharp.Entities
                     shipment.eveningPhoneNumber={shipment.EveningPhoneNumber}
                     shipment.mobilePhoneNumber={shipment.MobilePhoneNumber}
                     shipment.faxNumber={shipment.FaxNumber}
-                    shipment.companyName={shipment.CompanyName}
+                    shipment.companyName={shipment.CompanycourierName}
                     shipment.userDefined1={shipment.UserDefined1}
                     shipment.userDefined2={shipment.UserDefined2}
                     shipment.userDefined3={shipment.UserDefined3}
@@ -181,43 +182,44 @@ namespace ProfulfilmentSharp.Entities
                     shipment.deliverySuggestionName={shipment.DeliverySuggestionName}
                     shipment.orderItem={shipment.OrderItem}";
         }
-    
-        public static string GetSupplierPurchaseOrderBody(PurchaseOrderRequest request)
+
+        public static string SupplierPurchaseOrder(PurchaseOrderRequest request)
         {
             return $@"
                    <imports>
                     <import type='purchaseOrder' operation='insert'
-                    externalReference = '{request.ExternalReference}'>
-                    purchaseOrder.supplierReference = {request.SupplierReference}
-                    purchaseOrder.supplier = {request.Supplier}
-                    purchaseOrder.site = {request.Site}
-                    purchaseOrder.campaign = {request.Campaign}
-                    {GetSupplierOrderProducts(request.PurchaseOrderProducts)}
+                        externalReference = '{request.ExternalReference}'>
+                        purchaseOrder.supplierReference = {request.SupplierReference}
+                        purchaseOrder.supplier = {request.Supplier}
+                        purchaseOrder.site = {request.Site}
+                        purchaseOrder.campaign = {request.Campaign}
+                        {SupplierOrderProducts(request.PurchaseOrderProducts)}
                     </import>
-                  </imports>
-                ";
+                  </imports>";
         }
-    
-        public static string GetSupplierOrderProducts(IEnumerable<PurchaseOrderProduct> products)
+
+        public static string SupplierOrderProducts(IEnumerable<PurchaseOrderProduct> products)
         {
             var sb = new StringBuilder();
+            var itemCount = 1;
             foreach (var product in products)
             {
                 var item = $@"
-                    purchaseOrderLine.1.product = {product.Product}
-                    purchaseOrderLine.1.quantity = {product.Quantity}
-                    purchaseOrderLine.1.purchaseOrder = {product.PurchaseOrder}
-                    purchaseOrderLine.1.externalReference = {product.ProductExternalReference}";
+                    purchaseOrderLine.{itemCount}.product = {product.Product}
+                    purchaseOrderLine.{itemCount}.quantity = {product.Quantity}
+                    purchaseOrderLine.{itemCount}.purchaseOrder = {product.PurchaseOrder}
+                    purchaseOrderLine.{itemCount}.externalReference = {product.ProductExternalReference}";
                 sb.Append(item);
+                itemCount++;
             }
             return sb.ToString();
         }
    
-        public static string GetReturnImportBody(ReturnImportRequest request)
+        public static string ReturnImport(ReturnImportRequest request)
         {
             return $@"
                   <imports>
-                    <import type='return' operation='{request.AttributeOperation}'>
+                    <import type='return' operation='insert'>
                     return.orderReference = {request.OrderReference}
                     return.authorisation = {request.Authorisation}
                     return.authorised = {request.Authorised}
@@ -227,26 +229,80 @@ namespace ProfulfilmentSharp.Entities
                     return.user = {request.User}
                     return.organisation = {request.Organisation}
                     return.site = {request.Site}
-                    return.note ={request.Note}
-                    {GetReturnLineItems(request.ReturnLineItems)}
+                    return.note ={request.Note}{ReturnLineItems(request.ReturnLineItems)}
                  </import>
              </imports>";
         }
 
-        public static string GetReturnLineItems(IEnumerable<ReturnLineItem> lineItems)
+        public static string ReturnLineItems(List<ReturnLineItem> lineItems)
         {
             var sb = new StringBuilder();
+            var itemCount = 1;
             foreach (var lineItem in lineItems)
             {
                 var item = $@"
-                    returnLine.1.quantity = {lineItem.Quantity}
-                    returnLine.1.reason = {lineItem.Reason}
-                    returnLine.1.condition = {lineItem.Condition}
-                    returnLine.1.product = {lineItem.Product}
-                    returnLine.1.returnItem ={lineItem.ReturnItem}";
+                    returnLine.{itemCount}.quantity = {lineItem.Quantity}
+                    returnLine.{itemCount}.reason = {lineItem.Reason}
+                    returnLine.{itemCount}.condition = {lineItem.Condition}
+                    returnLine.{itemCount}.product = {lineItem.Product}
+                    returnLine.{itemCount}.returnItem ={lineItem.ReturnItem}";
                 sb.Append(item);
+                itemCount++;
             }
+            return sb.ToString();
+        }
 
+        public static string InventoryPush(InventoryPushRequest request)
+        {
+            var product = request.Product;
+            return $@"
+                <inventory messageId='{request.MessageId}'>
+                    <product
+                    inventoryId = '{product.InventoryId}'
+                    sequenceId = '{product.SequenceId}'
+                    externalReference ='{product.ExternalReference}'
+                    organisation = '{product.Organisation}'
+                    site = '{product.Site}'
+                    total = '{product.Total}'
+                    allocated ='{product.Allocated}'
+                    available = '{product.Available}'
+                    frozen = '{product.Frozen}'
+                    onOrder = '{product.OnOrder}'
+                    lastStockChangeId = '{product.LastStockChangeId}'
+                    lastLineRequirementChangeId = '{product.LastLineRequirementChangeId}'/>
+                </ inventory > ";
+        }
+
+        public static string CampaignImport(CampaignImport request)
+        {
+            return $@"
+                  <imports>
+                    <import type='campaign' operation='insert' externalReference='campaign_reference'>
+                        externalReference = campaign_reference
+                        name = {request.Name}
+                        description = {request.Description}
+                        channel = {request.Channel}
+                        startDate = {request.StartDate}
+                        breakDate = {request.BreakDate}
+                        endDate = {request.EndDate}
+                        state = {request.State}{CampaignLineItems(request.CampaignLineItems)}
+                    </import>
+                </imports> ";
+        }
+
+        public static string CampaignLineItems(List<CampaignLineItem> lineItems)
+        {
+            var sb = new StringBuilder();
+            var itemCount = 1;
+            foreach (var lineItem in lineItems)
+            {
+                var item = $@"
+                    campaignLine.{itemCount}.quantity = {lineItem.Quantity}
+                    campaignLine.{itemCount}.product.externalReference = {lineItem.ProductExternalReference}
+                    campaignLine.{itemCount}.campaign = {lineItem.Campaign}";
+                sb.Append(item);
+                itemCount++;
+            }
             return sb.ToString();
         }
     }

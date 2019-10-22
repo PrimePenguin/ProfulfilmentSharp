@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
 {
     [XmlRoot(ElementName = "import")]
     public class PurchaseOrderRequest
@@ -33,16 +33,9 @@ namespace ProfulfilmentSharp.Entities
 
     public class PurchaseOrderProduct
     {
-        [XmlElement(ElementName = "purchaseOrderLine.1.product")]
         public string Product { get; set; }
-
-        [XmlElement(ElementName = "purchaseOrderLine.1.quantity")]
         public float Quantity { get; set; }
-
-        [XmlElement(ElementName = "purchaseOrderLine.1.purchaseOrder")]
         public string PurchaseOrder { get; set; }
-
-        [XmlElement(ElementName = "purchaseOrderLine.1.externalReference")]
         public string ProductExternalReference { get; set; }
     }
 

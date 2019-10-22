@@ -1,14 +1,23 @@
-﻿using System.Xml.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
 {
     public class ImportOrderLineItem
     {
+        [Required]
         [XmlElement(ElementName = "orderLine.1.product.externalReference")]
         public string ProductExternalReference { get; set; }
 
+        [Required]
         [XmlElement(ElementName = "orderLine.1.quantity")]
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
+
+        /// <summary>
+        /// Typically used for a local language order line description. If not set, then product description is used instead
+        /// </summary>
+        [XmlElement(ElementName = "orderLine.1.description")]
+        public string Description { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.state")]
         public string State { get; set; }

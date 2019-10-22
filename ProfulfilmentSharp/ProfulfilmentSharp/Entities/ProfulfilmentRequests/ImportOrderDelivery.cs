@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
 {
     public class ImportOrderDelivery
     {

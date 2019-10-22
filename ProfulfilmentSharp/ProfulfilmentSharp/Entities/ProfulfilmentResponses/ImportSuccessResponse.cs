@@ -1,28 +1,29 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentResponses
 {
     [XmlRoot(ElementName = "import")]
-    public class ImportFailureResponse
+    public class ImportSuccessResponse
     {
-        [XmlElement(ElementName = "failureMessage")]
-        public string FailureMessage { get; set; }
-        [XmlElement(ElementName = "failureDetail")]
-        public string FailureDetail { get; set; }
         [XmlAttribute(AttributeName = "type")]
         public string Type { get; set; }
         [XmlAttribute(AttributeName = "operation")]
         public string Operation { get; set; }
         [XmlAttribute(AttributeName = "externalReference")]
         public string ExternalReference { get; set; }
+        [XmlAttribute(AttributeName = "entity")]
+        public string Entity { get; set; }
+        [XmlAttribute(AttributeName = "item")]
+        public string Item { get; set; }
         [XmlAttribute(AttributeName = "queryTime")]
         public string QueryTime { get; set; }
     }
 
-    [XmlRoot(ElementName = "importFailures")]
-    public class ImportFailures
+    [XmlRoot(ElementName = "importSuccesses")]
+    public class ImportSuccesses
     {
         [XmlElement(ElementName = "import")]
-        public ImportFailureResponse ImportFailureResponse { get; set; }
+        public List<ImportSuccessResponse> ImportSuccessResponses { get; set; }
     }
 }

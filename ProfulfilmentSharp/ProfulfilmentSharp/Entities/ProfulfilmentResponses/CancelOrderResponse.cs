@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentResponses
 {
     [XmlRoot(ElementName = "message")]
     public class CancelOrderResponse
@@ -15,7 +15,6 @@ namespace ProfulfilmentSharp.Entities
             CancelOrderResponse = null;
         }
         public string ValidationError { get; set; }
-        public bool IsValid { get; set; }
         public CancelOrderResponse CancelOrderResponse { get; set; }
     }
 }

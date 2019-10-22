@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
 {
-    public  class RequestContent
+    public  class ProfulfilmentRequestContent
     {
         public string  RequestUri { get; set; }
         public string PostData { get; set; }

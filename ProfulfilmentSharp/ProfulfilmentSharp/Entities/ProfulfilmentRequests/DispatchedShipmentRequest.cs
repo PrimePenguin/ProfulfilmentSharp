@@ -1,13 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProfulfilmentSharp.Entities
+namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
 {
-    public class OrderByReferenceRequest
-    {
-        [Required] public string Channel { get; set; }
-        [Required] public string ExternalReference { get; set; }
-    }
-
     public class DispatchedShipmentRequest
     {
         /// <summary>
@@ -32,19 +26,5 @@ namespace ProfulfilmentSharp.Entities
         /// to include order lines in the shipment
         /// </summary>
         public bool IncludeOrderLines { get; set; }
-    }
-
-    public class CancelOrderRequest
-    {
-        /// <summary>
-        /// the reference of the order to be cancelled
-        /// </summary>
-        [Required]
-        public string ExternalReference { get; set; }
-
-        /// <summary>
-        /// whether cancellation should change the order reference
-        /// </summary>
-        public bool CancelChangesExternalReference { get; set; }
     }
 }

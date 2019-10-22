@@ -9,4 +9,10 @@ namespace ProfulfilmentSharp.Entities
         [XmlElement(ElementName = "package")]
         public List<Package> Package { get; set; }
     }
+    [XmlRoot(ElementName = "package")]
+    public class Package
+    {
+        [XmlAttribute(AttributeName = "despatchReference")]
+        public string DespatchReference { get; set; }
+    }
 }
