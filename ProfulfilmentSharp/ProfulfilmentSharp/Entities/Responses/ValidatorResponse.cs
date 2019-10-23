@@ -1,4 +1,4 @@
-﻿namespace ProfulfilmentSharp.Entities.ProfulfilmentResponses
+﻿namespace ProfulfilmentSharp.Entities.Responses
 {
     public class ValidatorResponse
     {

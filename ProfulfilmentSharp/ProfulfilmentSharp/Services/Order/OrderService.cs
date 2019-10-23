@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Text;
 using ProfulfilmentSharp.Entities;
-using ProfulfilmentSharp.Entities.ProfulfilmentRequests;
-using ProfulfilmentSharp.Entities.ProfulfilmentResponses;
+using ProfulfilmentSharp.Entities.Requests;
+using ProfulfilmentSharp.Entities.Responses;
 
 namespace ProfulfilmentSharp.Services.Order
 {
@@ -28,13 +28,15 @@ namespace ProfulfilmentSharp.Services.Order
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
-            {
-                RequestUri = PrepareRequestUrl($"remoteorder/imports/importitems.xml"),
-                PostData = ProfulfilmentEntityRequestBody.Order(request: request),
-                HttpMethod = HttpMethod.Post,
-                Headers = new Dictionary<string, string> { { "channel", "channel1" } }
-            });
+
+            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(
+                new ProfulfilmentRequestContent
+                {
+                    RequestUri = PrepareRequestUrl($"remoteorder/imports/importitems.xml"),
+                    PostData = ProfulfilmentEntityRequestBody.Order(request: request),
+                    HttpMethod = HttpMethod.Post,
+                    Headers = new Dictionary<string, string> {{"channel", "channel1"}}
+                });
             return response;
         }
 
@@ -43,7 +45,7 @@ namespace ProfulfilmentSharp.Services.Order
         /// </summary>
         /// <param name="request">order by reference request</param>
         /// <returns></returns>
-        public virtual OrderRootResponse GetOrderByExternalReference(OrderByReferenceRequest request)
+        public virtual OrderRootResponse PullOrderDetails(OrderByReferenceRequest request)
         {
             var response = new OrderRootResponse();
             var validatorResponse = GetValidatorResponse(instance: request);
@@ -109,7 +111,7 @@ namespace ProfulfilmentSharp.Services.Order
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse ReturnImport(ReturnImportRequest request)
+        public virtual CreateOrUpdateEntityRootResponse ImportReturn(ReturnImportRequest request)
         {
             var response = new CreateOrUpdateEntityRootResponse();
             var validatorResponse = GetValidatorResponse(instance: request);
@@ -121,7 +123,7 @@ namespace ProfulfilmentSharp.Services.Order
             response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
             {
                 RequestUri = PrepareRequestUrl($"remotewarehouse/imports/importitems.xml"),
-                PostData = ProfulfilmentEntityRequestBody.ReturnImport(request: request),
+                PostData = ProfulfilmentEntityRequestBody.Return(request: request),
                 HttpMethod = HttpMethod.Post,
                 Headers = new Dictionary<string, string> { { "organisation", "prime_penguin" } }
             });
@@ -177,7 +179,7 @@ namespace ProfulfilmentSharp.Services.Order
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse CampaignImport(CampaignImportRequest request)
+        public virtual CreateOrUpdateEntityRootResponse ImportCampaign(CampaignImportRequest request)
         {
             var response = new CreateOrUpdateEntityRootResponse();
             var validatorResponse = GetValidatorResponse(instance: request);
@@ -189,7 +191,7 @@ namespace ProfulfilmentSharp.Services.Order
             response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
             {
                 RequestUri = PrepareRequestUrl($"remotewarehouse/imports/importitems.xml"),
-                PostData = ProfulfilmentEntityRequestBody.CampaignImport(request.Import),
+                PostData = ProfulfilmentEntityRequestBody.Campaign(request.Import),
                 HttpMethod = HttpMethod.Post,
                 Headers = new Dictionary<string, string> { { "organisation", "prime_penguin" } }
             });

@@ -1,26 +1,9 @@
 ﻿using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
+namespace ProfulfilmentSharp.Entities.Events
 {
-    [XmlRoot(ElementName = "purchaseOrder")]
-    public class PurchaseOrder
-    {
-        [XmlAttribute(AttributeName = "id")]
-        public string Id { get; set; }
-        [XmlAttribute(AttributeName = "externalReference")]
-        public string ExternalReference { get; set; }
-        [XmlAttribute(AttributeName = "state")]
-        public string State { get; set; }
-        [XmlAttribute(AttributeName = "supplierPurchaseOrderReference")]
-        public string SupplierPurchaseOrderReference { get; set; }
-        [XmlAttribute(AttributeName = "manuallyCompleted")]
-        public string ManuallyCompleted { get; set; }
-        [XmlAttribute(AttributeName = "purchaseOrderDate")]
-        public string PurchaseOrderDate { get; set; }
-    }
-
     [XmlRoot(ElementName = "delivery")]
-    public class Delivery
+    public class DeliveryLineInfo
     {
         [XmlElement(ElementName = "purchaseOrder")]
         public PurchaseOrder PurchaseOrder { get; set; }
@@ -45,10 +28,10 @@ namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
     }
 
     [XmlRoot(ElementName = "deliveryLine")]
-    public class DeliveryLine
+    public class DeliveryLineItem
     {
         [XmlElement(ElementName = "delivery")]
-        public Delivery Delivery { get; set; }
+        public DeliveryLineInfo Delivery { get; set; }
         [XmlAttribute(AttributeName = "id")]
         public string Id { get; set; }
         [XmlAttribute(AttributeName = "product")]
@@ -62,17 +45,17 @@ namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
     }
 
     [XmlRoot(ElementName = "detail")]
-    public class Detail
+    public class DeliveryLinePushDetails
     {
         [XmlElement(ElementName = "deliveryLine")]
-        public DeliveryLine DeliveryLine { get; set; }
+        public DeliveryLineItem DeliveryLine { get; set; }
     }
 
     [XmlRoot(ElementName = "event")]
-    public class DeliveryLinePushRequest
+    public class DeliveryLinePushEvent
     {
         [XmlElement(ElementName = "detail")]
-        public Detail Detail { get; set; }
+        public DeliveryLinePushDetails Detail { get; set; }
         [XmlAttribute(AttributeName = "messageId")]
         public string MessageId { get; set; }
         [XmlAttribute(AttributeName = "eventType")]

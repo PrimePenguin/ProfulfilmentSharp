@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
+namespace ProfulfilmentSharp.Entities.Requests
 {
-
     [XmlRoot(ElementName = "product")]
     public class InventoryProduct
     {
@@ -41,20 +40,9 @@ namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
     [XmlRoot(ElementName = "inventory")]
     public class InventoryPushRequest
     {
-        [XmlElement(ElementName = "product")]
-        public InventoryProduct Product { get; set; }
+        [XmlElement(ElementName = "product")] public InventoryProduct Product { get; set; }
 
         [XmlAttribute(AttributeName = "messageId")]
         public string MessageId { get; set; }
-    }
-
-    public class InventoryPushRootRequest
-    {
-        public InventoryPushRootRequest()
-        {
-            InventoryPushRequest = null;
-        }
-        public string ValidationError { get; set; }
-        public object InventoryPushRequest { get; set; }
     }
 }

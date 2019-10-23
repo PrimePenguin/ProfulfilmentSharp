@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 
-namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
+namespace ProfulfilmentSharp.Entities.Requests
 {
     public  class ProfulfilmentRequestContent
     {

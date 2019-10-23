@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities.ProfulfilmentResponses
+namespace ProfulfilmentSharp.Entities.Responses
 {
     [XmlRoot(ElementName = "message")]
     public class CancelOrderResponse

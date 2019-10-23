@@ -5,16 +5,14 @@ using System.Net.Http;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using ProfulfilmentSharp.Entities.ProfulfilmentRequests;
+using ProfulfilmentSharp.Entities.Requests;
 
 namespace ProfulfilmentSharp.Services
 {
     public class ProfulfilmentService
     {
         protected NetworkCredential NetworkCredential { get; set; }
-
         protected string UserName { get; set; }
-
         protected string Password { get; set; }
         public byte[] _data { get; set; }
 
@@ -38,8 +36,6 @@ namespace ProfulfilmentSharp.Services
         }
 
         public string PrepareRequestUrl(string path) => $"https://wms.profulfilment.com/orderflow/test/{path}";
-
-        public string PrepareThirdPartyRequestUrl(string path) => $"https://thirdpartyurl/{path}";
 
         protected T ExecuteGetRequest<T>(string requestUri, HttpMethod method)
         {

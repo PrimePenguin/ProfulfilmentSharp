@@ -1,29 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities.ProfulfilmentResponses
+namespace ProfulfilmentSharp.Entities.Responses
 {
     [XmlRoot(ElementName = "import")]
-    public class ImportDuplicateResponse
+    public class ImportSuccessResponse
     {
-        [XmlElement(ElementName = "duplicateMessage")]
-        public string DuplicateMessage { get; set; }
-        [XmlElement(ElementName = "duplicateDetail")]
-        public string DuplicateDetail { get; set; }
         [XmlAttribute(AttributeName = "type")]
         public string Type { get; set; }
         [XmlAttribute(AttributeName = "operation")]
         public string Operation { get; set; }
         [XmlAttribute(AttributeName = "externalReference")]
         public string ExternalReference { get; set; }
+        [XmlAttribute(AttributeName = "entity")]
+        public string Entity { get; set; }
+        [XmlAttribute(AttributeName = "item")]
+        public string Item { get; set; }
         [XmlAttribute(AttributeName = "queryTime")]
         public string QueryTime { get; set; }
     }
 
-    [XmlRoot(ElementName = "importDuplicates")]
-    public class ImportDuplicates
+    [XmlRoot(ElementName = "importSuccesses")]
+    public class ImportSuccesses
     {
         [XmlElement(ElementName = "import")]
-        public List<ImportDuplicateResponse> ImportDuplicateResponses { get; set; }
+        public List<ImportSuccessResponse> ImportSuccessResponses { get; set; }
     }
 }

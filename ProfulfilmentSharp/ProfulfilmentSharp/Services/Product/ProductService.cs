@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Text;
 using ProfulfilmentSharp.Entities;
-using ProfulfilmentSharp.Entities.ProfulfilmentRequests;
-using ProfulfilmentSharp.Entities.ProfulfilmentResponses;
+using ProfulfilmentSharp.Entities.Requests;
+using ProfulfilmentSharp.Entities.Responses;
 using static System.String;
 
 namespace ProfulfilmentSharp.Services.Product
@@ -17,11 +17,11 @@ namespace ProfulfilmentSharp.Services.Product
         }
 
         /// <summary>
-        /// Get all inventories
+        /// This operation can return the inventory level for just a single product, a particular set of products or for all products in the inventory for a particular retailer.
         /// </summary>
         /// <param name="channel">channel name</param>
         /// <returns></returns>
-        public virtual Inventory GetInventories(string channel)
+        public virtual Inventory PullInventory(string channel)
         {
             var response = new Inventory();
             if (IsNullOrEmpty(value: channel)) throw new Exception("Channel name is required.");
@@ -55,53 +55,6 @@ namespace ProfulfilmentSharp.Services.Product
                 return response;
             }
             response.ValidationError = validatorResponse.ValidationErrors;
-            return response;
-        }
-
-        /// <summary>
-        /// It is used by OrderFlow to PUSH stock levels to Third Party applications when a change in stock levels triggers the event or as a scheduled background processes
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public virtual InventoryPushRootRequest PushInventory(InventoryPushRequest request)
-        {
-            var response = new InventoryPushRootRequest();
-            var validatorResponse = GetValidatorResponse(instance: request);
-            if (!validatorResponse.IsValidRequest)
-            {
-                response.ValidationError = validatorResponse.ValidationErrors;
-                return response;
-            }
-            response.InventoryPushRequest = ExecutePostRequest<object>(new ProfulfilmentRequestContent
-            {
-                RequestUri = PrepareThirdPartyRequestUrl($"productInventory.xml"),
-                PostData = ProfulfilmentEntityRequestBody.InventoryPush(request: request),
-                HttpMethod = HttpMethod.Post
-            });
-            return response;
-        }
-
-        /// <summary>
-        /// import return
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public virtual InventoryPushRootRequest DeliveryLinePush(InventoryPushRequest request)
-        {
-            var response = new InventoryPushRootRequest();
-            var validatorResponse = GetValidatorResponse(instance: request);
-            if (!validatorResponse.IsValidRequest)
-            {
-                response.ValidationError = validatorResponse.ValidationErrors;
-                return response;
-            }
-
-            response.InventoryPushRequest = ExecutePostRequest<object>(new ProfulfilmentRequestContent
-            {
-                RequestUri = PrepareThirdPartyRequestUrl($"deliveryLine.xml"),
-                PostData = ProfulfilmentEntityRequestBody.InventoryPush(request: request),
-                HttpMethod = HttpMethod.Post
-            });
             return response;
         }
 

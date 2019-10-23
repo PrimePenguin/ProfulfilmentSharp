@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
+namespace ProfulfilmentSharp.Entities.Requests
 {
     [XmlRoot(ElementName = "import")]
     public class CampaignImport

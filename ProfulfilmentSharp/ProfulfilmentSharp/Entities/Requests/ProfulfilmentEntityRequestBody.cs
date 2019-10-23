@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
+namespace ProfulfilmentSharp.Entities.Requests
 {
     public static class ProfulfilmentEntityRequestBody
     {
@@ -215,7 +215,7 @@ namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
             return sb.ToString();
         }
    
-        public static string ReturnImport(ReturnImportRequest request)
+        public static string Return(ReturnImportRequest request)
         {
             return $@"
                   <imports>
@@ -273,7 +273,7 @@ namespace ProfulfilmentSharp.Entities.ProfulfilmentRequests
                 </ inventory > ";
         }
 
-        public static string CampaignImport(CampaignImport request)
+        public static string Campaign(CampaignImport request)
         {
             return $@"
                   <imports>
