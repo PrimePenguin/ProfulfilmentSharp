@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
-using System.Text;
 using ProfulfilmentSharp.Entities;
 using ProfulfilmentSharp.Entities.Requests;
 using ProfulfilmentSharp.Entities.Responses;
 
-namespace ProfulfilmentSharp.Services.Order
+namespace ProfulfilmentSharp.Services
 {
     public class OrderService : ProfulfilmentService
     {
@@ -18,11 +16,12 @@ namespace ProfulfilmentSharp.Services.Order
         /// The order import defines a mechanism for importing orders supplied as an XML document.
         /// </summary>
         /// <param name="request">order data to be created</param>
+        /// <param name="channel">Channel Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse CreateNewOrder(ImportOrderRequest request)
+        public virtual CreateOrUpdateEntityRootResponse CreateNewOrder(ImportOrderRequest request, string channel)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var validatorResponse = GetValidatorResponse(instance: request);
+            var validatorResponse = GetValidatorResponse(request);
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
@@ -32,10 +31,10 @@ namespace ProfulfilmentSharp.Services.Order
             response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(
                 new ProfulfilmentRequestContent
                 {
-                    RequestUri = PrepareRequestUrl($"remoteorder/imports/importitems.xml"),
-                    PostData = ProfulfilmentEntityRequestBody.Order(request: request),
+                    RequestUri = PrepareRequestUrl("remoteorder/imports/importitems.xml"),
+                    PostData = ProfulfilmentEntityRequestBody.Order(request),
                     HttpMethod = HttpMethod.Post,
-                    Headers = new Dictionary<string, string> {{"channel", "channel1"}}
+                    Headers = new Dictionary<string, string> { { "channel", channel } }
                 });
             return response;
         }
@@ -48,15 +47,14 @@ namespace ProfulfilmentSharp.Services.Order
         public virtual OrderRootResponse PullOrderDetails(OrderByReferenceRequest request)
         {
             var response = new OrderRootResponse();
-            var validatorResponse = GetValidatorResponse(instance: request);
+            var validatorResponse = GetValidatorResponse(request);
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            var requestUrl = PrepareRequestUrl(
-                $"remoteorder/order/detail.xml?channel={request.Channel}&externalReference={request.ExternalReference}");
-            var result = ExecuteGetRequest<Entities.Order>(requestUri: requestUrl, method: HttpMethod.Get);
+            var requestUrl = PrepareRequestUrl($"remoteorder/order/detail.xml?channel={request.Channel}&externalReference={request.ExternalReference}");
+            var result = ExecuteGetRequest<Order>(requestUrl, HttpMethod.Get);
             response.Order = result;
             return response;
         }
@@ -69,15 +67,13 @@ namespace ProfulfilmentSharp.Services.Order
         public virtual RootDispatchedShipments GetDispatchedShipmentByTimeStamps(DispatchedShipmentRequest request)
         {
             var response = new RootDispatchedShipments();
-            var validatorResponse = GetValidatorResponse(instance: request);
+            var validatorResponse = GetValidatorResponse(request);
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            var requestUrl =
-                PrepareRequestUrl(
-                    path: $"remoteorder/shipment/despatches.xml?channel={request.Channel}&from={request.From}&to={request.To}");
+            var requestUrl = PrepareRequestUrl($"remoteorder/shipment/despatches.xml?channel={request.Channel}&from={request.From}&to={request.To}");
             response.DispatchedShipments = ExecuteGetRequest<DispatchedShipments>(requestUrl, HttpMethod.Get);
             return response;
         }
@@ -86,11 +82,12 @@ namespace ProfulfilmentSharp.Services.Order
         /// Import Supplier purchase order
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="organization">Organization Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse SupplierPurchaseOrderImport(SupplierPurchaseOrderImportRequest request)
+        public virtual CreateOrUpdateEntityRootResponse SupplierPurchaseOrderImport(SupplierPurchaseOrderImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var validatorResponse = GetValidatorResponse(instance: request);
+            var validatorResponse = GetValidatorResponse(request);
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
@@ -98,10 +95,10 @@ namespace ProfulfilmentSharp.Services.Order
             }
             response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
             {
-                RequestUri = PrepareRequestUrl($"remotewarehouse/imports/importitems.xml"),
-                PostData = ProfulfilmentEntityRequestBody.SupplierPurchaseOrder(request: request.PurchaseOrder),
+                RequestUri = PrepareRequestUrl("remotewarehouse/imports/importitems.xml"),
+                PostData = ProfulfilmentEntityRequestBody.SupplierPurchaseOrder(request.PurchaseOrder),
                 HttpMethod = HttpMethod.Post,
-                Headers = new Dictionary<string, string> { { "organisation", "prime_penguin" } }
+                Headers = new Dictionary<string, string> { { "organisation", organization } }
             });
             return response;
         }
@@ -110,11 +107,12 @@ namespace ProfulfilmentSharp.Services.Order
         /// The Return Item import defines a mechanism for importing customer returns remotely.
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="organization">Organization Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse ImportReturn(ReturnImportRequest request)
+        public virtual CreateOrUpdateEntityRootResponse ImportReturn(ReturnImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var validatorResponse = GetValidatorResponse(instance: request);
+            var validatorResponse = GetValidatorResponse(request);
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
@@ -122,10 +120,10 @@ namespace ProfulfilmentSharp.Services.Order
             }
             response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
             {
-                RequestUri = PrepareRequestUrl($"remotewarehouse/imports/importitems.xml"),
-                PostData = ProfulfilmentEntityRequestBody.Return(request: request),
+                RequestUri = PrepareRequestUrl("remotewarehouse/imports/importitems.xml"),
+                PostData = ProfulfilmentEntityRequestBody.Return(request),
                 HttpMethod = HttpMethod.Post,
-                Headers = new Dictionary<string, string> { { "organisation", "prime_penguin" } }
+                Headers = new Dictionary<string, string> { { "organisation", organization } }
             });
             return response;
         }
@@ -134,7 +132,7 @@ namespace ProfulfilmentSharp.Services.Order
         /// The process of deleting or cancelling an order is usually driven by the third party application in which the order was first generated.The process should attempt to delete the order within the OrderFlow system before changing the status of the order within the third party system
         /// </summary>
         /// <returns></returns>
-        public virtual CancelOrderRootResponse CancelOrder(CancelOrderRequest request)
+        public virtual CancelOrderRootResponse CancelOrder(CancelOrderRequest request, string channel)
         {
             var response = new CancelOrderRootResponse();
             var validatorResponse = GetValidatorResponse(request);
@@ -143,13 +141,12 @@ namespace ProfulfilmentSharp.Services.Order
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            var requestUrl = PrepareRequestUrl(
-                $"remoteorder/order/cancel.xml?externalReference={request.ExternalReference}&cancelChangesExternalReference={request.CancelChangesExternalReference}");
+            var requestUrl = PrepareRequestUrl($"remoteorder/order/cancel.xml?externalReference={request.ExternalReference}&cancelChangesExternalReference={request.CancelChangesExternalReference}");
             response.CancelOrderResponse = ExecutePostRequest<CancelOrderResponse>(new ProfulfilmentRequestContent
             {
                 RequestUri = requestUrl,
                 HttpMethod = HttpMethod.Post,
-                Headers = new Dictionary<string, string> { { "channel", "channel1" } }
+                Headers = new Dictionary<string, string> { { "channel", channel } }
             });
             return response;
         }
@@ -162,15 +159,14 @@ namespace ProfulfilmentSharp.Services.Order
         public virtual PendingShipmentRootRequest GetPendingShipments(PendingShipmentRequest request)
         {
             var response = new PendingShipmentRootRequest();
-            var validatorResponse = GetValidatorResponse(instance: request);
+            var validatorResponse = GetValidatorResponse(request);
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            var requestUrl = PrepareRequestUrl(
-                $"remoteorder/shipment/pending.xml?channel={request.Channel}");
-            response.PendingShipments = ExecuteGetRequest<PendingShipments>(requestUri: requestUrl, method: HttpMethod.Get);
+            var requestUrl = PrepareRequestUrl($"remoteorder/shipment/pending.xml?channel={request.Channel}");
+            response.PendingShipments = ExecuteGetRequest<PendingShipments>(requestUrl, HttpMethod.Get);
             return response;
         }
 
@@ -178,11 +174,12 @@ namespace ProfulfilmentSharp.Services.Order
         /// The Campaign import defines a mechanism for importing campaigns remotely. Multiple Campaign Lines can be associated with a Campaign, and multiple Campaigns can be defined in a single import. Campaigns are only present in OrderFlow from version 3.7.9
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="organization">Organization Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse ImportCampaign(CampaignImportRequest request)
+        public virtual CreateOrUpdateEntityRootResponse ImportCampaign(CampaignImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var validatorResponse = GetValidatorResponse(instance: request);
+            var validatorResponse = GetValidatorResponse(request);
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
@@ -190,34 +187,12 @@ namespace ProfulfilmentSharp.Services.Order
             }
             response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
             {
-                RequestUri = PrepareRequestUrl($"remotewarehouse/imports/importitems.xml"),
+                RequestUri = PrepareRequestUrl("remotewarehouse/imports/importitems.xml"),
                 PostData = ProfulfilmentEntityRequestBody.Campaign(request.Import),
                 HttpMethod = HttpMethod.Post,
-                Headers = new Dictionary<string, string> { { "organisation", "prime_penguin" } }
+                Headers = new Dictionary<string, string> { { "organisation", organization } }
             });
             return response;
         }
-
-        #region Private Methods
-
-        private static ValidatorResponse GetValidatorResponse(object instance)
-        {
-            var response = new ValidatorResponse();
-            var context = new ValidationContext(instance, serviceProvider: null, items: null);
-            var results = new List<ValidationResult>();
-            var isValid = Validator.TryValidateObject(instance: instance, validationContext: context, validationResults: results);
-            if (!isValid)
-            {
-                var errorBuilder = new StringBuilder();
-                foreach (var validationResult in results) errorBuilder.Append(value: validationResult.ErrorMessage + ",");
-                response.ValidationErrors = errorBuilder.ToString().TrimEnd(',');
-                errorBuilder.Clear();
-                return response;
-            }
-            response.IsValidRequest = true;
-            return response;
-        }
-
-        #endregion
     }
 }

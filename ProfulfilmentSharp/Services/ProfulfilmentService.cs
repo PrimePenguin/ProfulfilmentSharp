@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -6,6 +8,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using ProfulfilmentSharp.Entities.Requests;
+using ProfulfilmentSharp.Entities.Responses;
 
 namespace ProfulfilmentSharp.Services
 {
@@ -14,7 +17,7 @@ namespace ProfulfilmentSharp.Services
         protected NetworkCredential NetworkCredential { get; set; }
         protected string UserName { get; set; }
         protected string Password { get; set; }
-        public byte[] _data { get; set; }
+        public byte[] Data { get; set; }
 
         /// <summary>
         /// Creates a new instance of <see cref="ProfulfilmentService" />.
@@ -28,51 +31,51 @@ namespace ProfulfilmentSharp.Services
             NetworkCredential = BuildNetworkCredentials();
         }
 
-        public NetworkCredential BuildNetworkCredentials() => new NetworkCredential(userName: UserName, password: Password);
+        public NetworkCredential BuildNetworkCredentials() => new NetworkCredential(UserName, Password);
 
         protected CredentialCache GetRequestCredentials(string requestUri)
         {
-            return new CredentialCache { { new Uri(uriString: requestUri), "Basic", NetworkCredential } };
+            return new CredentialCache { { new Uri(requestUri), "Basic", NetworkCredential } };
         }
 
         public string PrepareRequestUrl(string path) => $"https://wms.profulfilment.com/orderflow/test/{path}";
 
         protected T ExecuteGetRequest<T>(string requestUri, HttpMethod method)
         {
-            var request = WebRequest.Create(requestUriString: requestUri);
+            var request = WebRequest.Create(requestUri);
             request.Method = method.ToString();
-            request.Credentials = GetRequestCredentials(requestUri: requestUri);
-            var response = GetResponse<T>(request: request);
+            request.Credentials = GetRequestCredentials(requestUri);
+            var response = GetResponse<T>(request);
             return response;
         }
 
         protected T ExecutePostRequest<T>(ProfulfilmentRequestContent profulfilmentRequestContent)
         {
-            var request = WebRequest.Create(requestUriString: profulfilmentRequestContent.RequestUri);
-            request.Credentials = GetRequestCredentials(requestUri: profulfilmentRequestContent.RequestUri);
+            var request = WebRequest.Create(profulfilmentRequestContent.RequestUri);
+            request.Credentials = GetRequestCredentials(profulfilmentRequestContent.RequestUri);
             request.Method = profulfilmentRequestContent.HttpMethod.ToString();
 
             if (profulfilmentRequestContent.PostData != null)
             {
-                _data = Encoding.ASCII.GetBytes(s: profulfilmentRequestContent.PostData);
-                request.ContentLength = _data.Length;
+                Data = Encoding.ASCII.GetBytes(profulfilmentRequestContent.PostData);
+                request.ContentLength = Data.Length;
             }
 
             // add request headers if any
             if (profulfilmentRequestContent.Headers != null)
             {
-                foreach (var (key, value) in profulfilmentRequestContent.Headers) request.Headers.Add(key, value: value);
+                foreach (var (key, value) in profulfilmentRequestContent.Headers) request.Headers.Add(key, value);
             }
 
-            if (_data != null)
+            if (Data != null)
             {
                 using (var stream = request.GetRequestStream())
                 {
-                    stream.Write(_data, 0, _data.Length);
+                    stream.Write(Data, 0, Data.Length);
                 }
             }
 
-            var response = GetResponse<T>(request: request);
+            var response = GetResponse<T>(request);
             return response;
         }
 
@@ -82,15 +85,15 @@ namespace ProfulfilmentSharp.Services
             {
                 using (var dataStream = response.GetResponseStream())
                 {
-                    using (var reader = new StreamReader(stream: dataStream ?? throw new InvalidOperationException()))
-                    {  
-                        var xmlReader = new XmlTextReader(input: reader);
+                    using (var reader = new StreamReader(dataStream ?? throw new InvalidOperationException()))
+                    {
+                        var xmlReader = new XmlTextReader(reader);
                         var xml = new XmlDocument();
-                        xml.Load(reader: xmlReader);
+                        xml.Load(xmlReader);
 
                         return xml.LastChild?.Name == "error"
-                            ? throw new Exception(message: xml.InnerText)
-                            : Deserialize<T>(document: xml);
+                            ? throw new Exception(xml.InnerText)
+                            : Deserialize<T>(xml);
                     }
                 }
             }
@@ -104,10 +107,28 @@ namespace ProfulfilmentSharp.Services
         /// <returns>Deserialized serializable object of type T.</returns>
         public T Deserialize<T>(XmlDocument document)
         {
-            XmlReader reader = new XmlNodeReader(node: document);
-            var serializer = new XmlSerializer(type: typeof(T));
-            var result = (T) serializer.Deserialize(xmlReader: reader);
+            XmlReader reader = new XmlNodeReader(document);
+            var serializer = new XmlSerializer(typeof(T));
+            var result = (T) serializer.Deserialize(reader);
             return result;
+        }
+
+        public static ValidatorResponse GetValidatorResponse(object instance)
+        {
+            var response = new ValidatorResponse();
+            var context = new ValidationContext(instance, null, null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(instance, context, results);
+            if (!isValid)
+            {
+                var errorBuilder = new StringBuilder();
+                foreach (var validationResult in results) errorBuilder.Append(validationResult.ErrorMessage + ",");
+                response.ValidationErrors = errorBuilder.ToString();
+                errorBuilder.Clear();
+                return response;
+            }
+            response.IsValidRequest = true;
+            return response;
         }
     }
 }

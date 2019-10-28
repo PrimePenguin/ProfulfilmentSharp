@@ -45,7 +45,7 @@ namespace ProfulfilmentSharp.Entities.Requests
 
         [XmlElement(ElementName = "totalTax")] public float TotalTax { get; set; }
 
-        /// <summary>   
+        /// <summary>
         /// pass a payment gateway identifier to OrderFlow, if required, for instance 'google_checkout'
         /// </summary>
         [XmlElement(ElementName = "paymentGatewayIdentifier")]
@@ -80,7 +80,7 @@ namespace ProfulfilmentSharp.Entities.Requests
 
         /// <summary>
         /// The price for the goods in the order. Includes the goods portion of the shipping price; excluding the shipping price
-        /// </summary>  
+        /// </summary>
         [XmlElement(ElementName = "goodsPriceNet")]
         public float GoodsPriceNet { get; set; }
 
@@ -122,7 +122,7 @@ namespace ProfulfilmentSharp.Entities.Requests
 
         /// <summary>
         /// The description of the promotion
-        /// </summary>  
+        /// </summary>
         [XmlElement(ElementName = "promotionDescription")]
         public string PromotionDescription { get; set; }
 
