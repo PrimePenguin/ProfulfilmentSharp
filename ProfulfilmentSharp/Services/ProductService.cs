@@ -18,7 +18,7 @@ namespace ProfulfilmentSharp.Services
         /// </summary>
         /// <param name="channel">channel name</param>
         /// <returns></returns>
-        public virtual Inventory PullInventory(string channel)
+        public virtual Inventory GetInventory(string channel)
         {
             var response = new Inventory();
             if (string.IsNullOrEmpty(channel)) throw new Exception("Channel name is required.");

@@ -18,7 +18,7 @@ namespace ProfulfilmentSharp.Services
         /// <param name="request">order data to be created</param>
         /// <param name="channel">Channel Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse CreateNewOrder(ImportOrderRequest request, string channel)
+        public virtual CreateOrUpdateEntityRootResponse CreateOrder(ImportOrderRequest request, string channel)
         {
             var response = new CreateOrUpdateEntityRootResponse();
             var validatorResponse = GetValidatorResponse(request);
@@ -44,7 +44,7 @@ namespace ProfulfilmentSharp.Services
         /// </summary>
         /// <param name="request">order by reference request</param>
         /// <returns></returns>
-        public virtual OrderRootResponse PullOrderDetails(OrderByReferenceRequest request)
+        public virtual OrderRootResponse GetOrder(OrderByReferenceRequest request)
         {
             var response = new OrderRootResponse();
             var validatorResponse = GetValidatorResponse(request);
@@ -84,7 +84,7 @@ namespace ProfulfilmentSharp.Services
         /// <param name="request"></param>
         /// <param name="organization">Organization Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse SupplierPurchaseOrderImport(SupplierPurchaseOrderImportRequest request, string organization)
+        public virtual CreateOrUpdateEntityRootResponse CreateSupplierPurchaseOrder(SupplierPurchaseOrderImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
             var validatorResponse = GetValidatorResponse(request);
@@ -109,7 +109,7 @@ namespace ProfulfilmentSharp.Services
         /// <param name="request"></param>
         /// <param name="organization">Organization Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse ImportReturn(ReturnImportRequest request, string organization)
+        public virtual CreateOrUpdateEntityRootResponse CreateReturn(ReturnImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
             var validatorResponse = GetValidatorResponse(request);
@@ -176,7 +176,7 @@ namespace ProfulfilmentSharp.Services
         /// <param name="request"></param>
         /// <param name="organization">Organization Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse ImportCampaign(CampaignImportRequest request, string organization)
+        public virtual CreateOrUpdateEntityRootResponse CreateCampaign(CampaignImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
             var validatorResponse = GetValidatorResponse(request);
