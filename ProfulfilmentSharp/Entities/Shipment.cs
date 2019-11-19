@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace ProfulfilmentSharp.Entities
 {
@@ -6,7 +7,7 @@ namespace ProfulfilmentSharp.Entities
     public class Shipment
     {
         [XmlElement(ElementName = "orderLines")]
-        public OrderLines OrderLines { get; set; }
+        public List<OrderLines> OrderLines { get; set; }
         [XmlAttribute(AttributeName = "sequence")]
         public string Sequence { get; set; }
         [XmlAttribute(AttributeName = "state")]

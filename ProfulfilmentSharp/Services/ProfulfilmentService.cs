@@ -109,7 +109,7 @@ namespace ProfulfilmentSharp.Services
         {
             XmlReader reader = new XmlNodeReader(document);
             var serializer = new XmlSerializer(typeof(T));
-            var result = (T) serializer.Deserialize(reader);
+            var result = (T)serializer.Deserialize(reader);
             return result;
         }
 

@@ -23,25 +23,25 @@ namespace ProfulfilmentSharp.Entities.Requests
         public string State { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.totalPriceNet")]
-        public float TotalPriceNet { get; set; }
+        public double?  TotalPriceNet { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.totalPriceGross")]
-        public float TotalPriceGross { get; set; }
+        public double?  TotalPriceGross { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.totalTax")]
-        public float TotalTax { get; set; }
+        public double?  TotalTax { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.totalTaxCode")]
         public string TotalTaxCode { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.unitPriceNet")]
-        public float UnitPriceNet { get; set; }
+        public double?  UnitPriceNet { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.unitPriceGross")]
-        public float UnitPriceGross { get; set; }
+        public double?  UnitPriceGross { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.unitTax")]
-        public float UnitTax { get; set; }
+        public double?  UnitTax { get; set; }
 
         [XmlElement(ElementName = "orderLine.1.unitTaxCode")]
         public string UnitTaxCode { get; set; }

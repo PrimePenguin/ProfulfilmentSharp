@@ -35,15 +35,15 @@ namespace ProfulfilmentSharp.Entities.Requests
         public string CustomerComment { get; set; }
 
         [XmlElement(ElementName = "totalPriceNet")]
-        public float TotalPriceNet { get; set; }
+        public double?  TotalPriceNet { get; set; }
 
         [XmlElement(ElementName = "totalPriceGross")]
-        public float TotalPriceGross { get; set; }
+        public double?  TotalPriceGross { get; set; }
 
         [XmlElement(ElementName = "totalPriceTax")]
-        public float TotalPriceTax { get; set; }
+        public double?  TotalPriceTax { get; set; }
 
-        [XmlElement(ElementName = "totalTax")] public float TotalTax { get; set; }
+        [XmlElement(ElementName = "totalTax")] public double?  TotalTax { get; set; }
 
         /// <summary>
         /// pass a payment gateway identifier to OrderFlow, if required, for instance 'google_checkout'
@@ -67,27 +67,27 @@ namespace ProfulfilmentSharp.Entities.Requests
         /// The net amount for the shipping charge for the order
         /// </summary>
         [XmlElement(ElementName = "shippingPriceNet")]
-        public float ShippingPriceNet { get; set; }
+        public double?  ShippingPriceNet { get; set; }
 
         [XmlElement(ElementName = "shippingPriceGross")]
-        public float ShippingPriceGross { get; set; }
+        public double?  ShippingPriceGross { get; set; }
 
         [XmlElement(ElementName = "shippingTax")]
-        public float ShippingTax { get; set; }
+        public double?  ShippingTax { get; set; }
 
         [XmlElement(ElementName = "shippingTaxTotal")]
-        public float ShippingTaxTotal { get; set; }
+        public double?  ShippingTaxTotal { get; set; }
 
         /// <summary>
         /// The price for the goods in the order. Includes the goods portion of the shipping price; excluding the shipping price
         /// </summary>
         [XmlElement(ElementName = "goodsPriceNet")]
-        public float GoodsPriceNet { get; set; }
+        public double?  GoodsPriceNet { get; set; }
 
         [XmlElement(ElementName = "goodsPriceGross")]
-        public float GoodsPriceGross { get; set; }
+        public double?  GoodsPriceGross { get; set; }
 
-        [XmlElement(ElementName = "goodsTax")] public float GoodsTax { get; set; }
+        [XmlElement(ElementName = "goodsTax")] public double?  GoodsTax { get; set; }
 
         /// <summary>
         /// One of a list of values which may be used to control the information shown on customer paperwork, for instance 'T0', 'T1', 'T2'

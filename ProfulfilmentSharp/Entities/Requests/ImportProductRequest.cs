@@ -113,18 +113,18 @@ namespace ProfulfilmentSharp.Entities.Requests
         [XmlElement(ElementName = "physicalStorageTypes")]
         public string PhysicalStorageTypes { get; set; }
 
-        [XmlElement(ElementName = "weight")] public float Weight { get; set; }
+        [XmlElement(ElementName = "weight")] public double? Weight { get; set; }
         [XmlElement(ElementName = "barcode")] public string Barcode { get; set; }
 
         [XmlElement(ElementName = "weightUnits")]
         public string WeightUnits { get; set; }
 
-        [XmlElement(ElementName = "priceNet")] public float PriceNet { get; set; }
+        [XmlElement(ElementName = "priceNet")] public double? PriceNet { get; set; }
 
         [XmlElement(ElementName = "priceGross")]
-        public float PriceGross { get; set; }
+        public double? PriceGross { get; set; }
 
-        [XmlElement(ElementName = "tax")] public float Tax { get; set; }
+        [XmlElement(ElementName = "tax")] public double? Tax { get; set; }
         [XmlElement(ElementName = "taxCode")] public string TaxCode { get; set; }
 
         [XmlElement(ElementName = "currencyUnits")]
@@ -135,7 +135,7 @@ namespace ProfulfilmentSharp.Entities.Requests
         [XmlElement(ElementName = "costGross")]
         public string CostGross { get; set; }
 
-        [XmlElement(ElementName = "costTax")] public float CostTax { get; set; }
+        [XmlElement(ElementName = "costTax")] public double? CostTax { get; set; }
 
         [XmlElement(ElementName = "costTaxCode")]
         public string CostTaxCode { get; set; }
@@ -164,10 +164,10 @@ namespace ProfulfilmentSharp.Entities.Requests
         [XmlElement(ElementName = "activated")]
         public string Activated { get; set; }
 
-        [XmlElement(ElementName = "length")] public float Length { get; set; }
-        [XmlElement(ElementName = "width")] public float Width { get; set; }
-        [XmlElement(ElementName = "height")] public float Height { get; set; }
-        [XmlElement(ElementName = "area")] public float Area { get; set; }
+        [XmlElement(ElementName = "length")] public double? Length { get; set; }
+        [XmlElement(ElementName = "width")] public double? Width { get; set; }
+        [XmlElement(ElementName = "height")] public double? Height { get; set; }
+        [XmlElement(ElementName = "area")] public double? Area { get; set; }
 
         [XmlElement(ElementName = "PickingInstruction")]
         public string PickingInstruction { get; set; }
@@ -179,7 +179,7 @@ namespace ProfulfilmentSharp.Entities.Requests
         /// Can be derived from dimensions if not supplied
         /// </summary>
         [XmlElement(ElementName = "volume")]
-        public float Volume { get; set; }
+        public double? Volume { get; set; }
 
         /// <summary>
         /// for instance 'red'
