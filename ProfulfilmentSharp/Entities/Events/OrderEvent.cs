@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace ProfulfilmentSharp.Entities.Events
 {
@@ -17,7 +18,7 @@ namespace ProfulfilmentSharp.Entities.Events
     public class OrderLines
     {
         [XmlElement(ElementName = "orderLine")]
-        public OrderLine OrderLine { get; set; }
+        public List<OrderLine> OrderLine { get; set; }
     }
 
     [XmlRoot(ElementName = "shipment")]

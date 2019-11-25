@@ -33,9 +33,16 @@ namespace ProfulfilmentSharp.Entities.Requests
 
     public class PurchaseOrderProduct
     {
+        [XmlAttribute(AttributeName = "product")]
         public string Product { get; set; }
+
+        [XmlAttribute(AttributeName = "quantity")]
         public float Quantity { get; set; }
+
+        [XmlAttribute(AttributeName = "purchaseOrder")]
         public string PurchaseOrder { get; set; }
+
+        [XmlAttribute(AttributeName = "externalReference")]
         public string ProductExternalReference { get; set; }
     }
 

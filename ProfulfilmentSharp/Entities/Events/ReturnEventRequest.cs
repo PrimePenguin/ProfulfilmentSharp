@@ -45,7 +45,7 @@ namespace ProfulfilmentSharp.Entities.Events
     }
 
     [XmlRoot(ElementName = "event")]
-    public class PushReturnEvent
+    public class ReturnEventRequest
     {
         [XmlElement(ElementName = "detail")]
         public PushReturnDetail Detail { get; set; }
