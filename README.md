@@ -1,27 +1,27 @@
-# ProfulfillmentSharp: A .NET library for Profulfillment.
+# ProfulfilmentSharp: A .NET library for Profulfilment.
 
-Profulfillment is a .NET library that enables you to authenticate and make API calls to Profulfillment. It's great for 
-building custom Profulfillment Apps using C# and .NET. You can quickly and easily get up and running with Profulfillment
+ProfulfilmentSharp is a .NET library that enables you to authenticate and make API calls to Profulfilment Warehouse. It's great for 
+building custom ProfulfilmentSharp Apps using C# and .NET. You can quickly and easily get up and running with ProfulfilmentSharp
 using this library.
 
 # Installation
 
-Profulfillment is [available on NuGet](https://www.nuget.org/packages/Profulfillment/). Use the package manager
+ProfulfilmentSharp is [available on NuGet](https://www.nuget.org/packages/ProfulfilmentSharp/). Use the package manager
 console in Visual Studio to install it:
 
 ```
-Install-Package Profulfillment
+Install-Package ProfulfilmentSharp
 ```
 
 If you're using .NET Core, you can use the `dotnet` command from your favorite shell:
 
 ```
-dotnet add package Profulfillment
+dotnet add package ProfulfilmentSharp
 ```
 
-# Using Profulfillment
+# Using ProfulfilmentSharp
 
-**Note**: All instances of `user_name` and `password` in the examples below **do not refer to your Profulfillment cerdentials**.
+**Note**: All instances of `user_name` and `password` in the examples below **do not refer to your ProfulfilmentSharp cerdentials**.
 
 ```cs
 var productService = new ProductService("user_name", "password");
