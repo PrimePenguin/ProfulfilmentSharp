@@ -42,12 +42,11 @@ namespace ProfulfilmentSharp.Entities.Requests
         public static string Order(ImportOrderRequest request)
         {
             var delivery = request.Delivery;
-            var invoice = request.Invoice;
             var shipment = request.Shipment;
 
             return $@"
                 <imports>
-                   <import type='order' operation='insert' externalReference='{request.ExternalReference}'>
+                   <import type='order' operation='{request.Operation}' externalReference='{request.ExternalReference}'>
                     state={request.State}
                     validated={request.Validated}
                     paymentTransactionInfo={request.PaymentTransactionInfo}
@@ -69,7 +68,7 @@ namespace ProfulfilmentSharp.Entities.Requests
                     userDefined2={request.UserDefined2}
                     userDefined3={request.UserDefined3}
                     userDefined4={request.UserDefined4}
-                    userDefined5={request.UserDefined5}                    {GetDeliveryDetails(delivery)}{GetInvoiceDetails(invoice)}{GetShipmentDetails(shipment)}{GetOrderLineItems(request.LineItems)}
+                    userDefined5={request.UserDefined5}                    {GetDeliveryDetails(delivery)}{GetShipmentDetails(shipment)}{GetOrderLineItems(request.LineItems)}
                     </import> 
                 </imports>
                 ";
@@ -145,7 +144,7 @@ namespace ProfulfilmentSharp.Entities.Requests
                     invoiceFaxNumber={invoice.FaxNumber}
                     invoiceCompanyName={invoice.CompanyName}";
         }
-  
+
         public static string GetShipmentDetails(ImportOrderShipment shipment)
         {
             return $@"
@@ -187,7 +186,7 @@ namespace ProfulfilmentSharp.Entities.Requests
         {
             return $@"
                    <imports>
-                    <import type='purchaseOrder' operation='insert'
+                    <import type='purchaseOrder' operation='{request.Operation}'
                         externalReference = '{request.ExternalReference}'>
                         purchaseOrder.supplierReference = {request.SupplierReference}
                         purchaseOrder.supplier = {request.Supplier}
@@ -214,12 +213,12 @@ namespace ProfulfilmentSharp.Entities.Requests
             }
             return sb.ToString();
         }
-   
+
         public static string Return(ReturnImportRequest request)
         {
             return $@"
                   <imports>
-                    <import type='return' operation='insert'>
+                    <import type='return' operation='{request.Operation}'>
                     return.orderReference = {request.OrderReference}
                     return.authorisation = {request.Authorisation}
                     return.authorised = {request.Authorised}

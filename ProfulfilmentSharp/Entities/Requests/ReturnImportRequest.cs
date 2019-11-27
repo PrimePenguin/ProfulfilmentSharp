@@ -45,6 +45,12 @@ namespace ProfulfilmentSharp.Entities.Requests
         public string User { get; set; }
 
         /// <summary>
+        /// type of operation
+        /// </summary>
+        [XmlElement(ElementName = "return.operation")]
+        public string Operation { get; set; }
+
+        /// <summary>
         /// optional
         /// </summary>
         [XmlElement(ElementName = "return.organisation")]
