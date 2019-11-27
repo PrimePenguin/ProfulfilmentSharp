@@ -20,7 +20,7 @@ namespace ProfulfilmentSharp.Services
         /// </summary>
         /// <param name="channel">channel name</param>
         /// <param name="externalReferences">product codes for which to retrieve inventories (optional) If no externalReferences are supplied the system will return all products associated with the channel, for which inventory exists.</param>
-        /// <param name="site">if multi-site inventory is enabled, then identiﬁes the site for which inventory is required (mandatory) </param>
+        /// <param name="site">if multi-site inventory is enabled, then identifies the site for which inventory is required (mandatory) </param>
         /// <returns></returns>
         public virtual Inventory GetInventory(string channel, string externalReferences = null, string site = null)
         {

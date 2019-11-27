@@ -1,4 +1,5 @@
-﻿using ProfulfilmentSharp.Services;
+﻿using System;
+using ProfulfilmentSharp.Services;
 
 namespace ProfulfilmentSharp.Utilities
 {
@@ -10,12 +11,20 @@ namespace ProfulfilmentSharp.Utilities
         /// <param name="username">user name</param>
         /// <param name="password">password</param>
         /// <param name="channel">channel name</param>
+        /// <param name="externalReference">default inventory externalReference</param>
         /// <returns></returns>
-        public static bool IsValidConnection(string username, string password, string channel)
+        public static bool IsValidConnection(string username, string password, string channel, string externalReference = "100000000000")
         {
             var productService = new ProductService(username, password);
-            var inventory = productService.GetInventory(channel);
-            return inventory.Products.Count >= 0;
+            try
+            {
+                var inventory = productService.GetInventory(channel, externalReference);
+                return inventory.Products.Count >= 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
