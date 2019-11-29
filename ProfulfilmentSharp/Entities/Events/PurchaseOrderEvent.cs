@@ -90,6 +90,10 @@ namespace ProfulfilmentSharp.Entities.Events
         public string MessageId { get; set; }
         [XmlAttribute(AttributeName = "id")]
         public string Id { get; set; }
+
+        /// <summary>
+        /// order external reference
+        /// </summary>
         [XmlAttribute(AttributeName = "externalReference")]
         public string ExternalReference { get; set; }
         [XmlAttribute(AttributeName = "state")]

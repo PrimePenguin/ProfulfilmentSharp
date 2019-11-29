@@ -194,5 +194,27 @@ namespace ProfulfilmentSharp.Services
             });
             return response;
         }
+
+        /// <summary>
+        ///  get purchase order report
+        /// </summary>
+        /// <param name="request">purchase order report request</param>
+        /// <returns></returns>
+        public PurchaseOrderRootReport GetPurchaseOrderList(PurchaseOrderReportRequest request)
+        {
+            var response = new PurchaseOrderRootReport();
+            if (string.IsNullOrEmpty(request.OrganizationId))
+            {
+                response.ValidatorError = "Organization id is required.";
+                return response;
+            }
+
+            var requestUrl = PrepareRequestUrl(
+                $"remote/report.xml?reportKey=purchase_order_lines_xml&organisation_id={request.OrganizationId}" +
+                $"&startDate={request.From}&endDate={request.To}");
+            var purchaseOrderResponse = ExecuteGetRequest<PurchaseOrderReport>(requestUrl, HttpMethod.Get);
+            response.PurchaseOrderReport = purchaseOrderResponse;
+            return response;
+        }
     }
 }

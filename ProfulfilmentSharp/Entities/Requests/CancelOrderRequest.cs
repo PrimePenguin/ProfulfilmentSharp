@@ -4,6 +4,11 @@ namespace ProfulfilmentSharp.Entities.Requests
 {
     public class CancelOrderRequest
     {
+        public CancelOrderRequest()
+        {
+            CancelChangesExternalReference = true;
+        }
+
         /// <summary>
         /// the reference of the order to be cancelled
         /// </summary>
