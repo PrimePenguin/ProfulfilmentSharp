@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using ProfulfilmentSharp.Entities;
 using ProfulfilmentSharp.Entities.Requests;
 using ProfulfilmentSharp.Entities.Responses;
@@ -211,7 +212,7 @@ namespace ProfulfilmentSharp.Services
 
             var requestUrl = PrepareRequestUrl(
                 $"remote/report.xml?reportKey=purchase_order_lines_xml&organisation_id={request.OrganizationId}" +
-                $"&startDate={request.From}&endDate={request.To}");
+                $"&startDate={request.From}&endDate={request.To}&reference={request.Reference}");
             var purchaseOrderResponse = ExecuteGetRequest<PurchaseOrderReport>(requestUrl, HttpMethod.Get);
             response.PurchaseOrderReport = purchaseOrderResponse;
             return response;

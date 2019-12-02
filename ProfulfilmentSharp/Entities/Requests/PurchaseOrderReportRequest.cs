@@ -16,5 +16,10 @@
         /// the date or time to which to consider
         /// </summary>
         public string To { get; set; }
+
+        /// <summary>
+        /// order external reference
+        /// </summary>
+        public string Reference { get; set; }
     }
 }
