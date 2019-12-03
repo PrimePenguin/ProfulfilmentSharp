@@ -47,23 +47,17 @@ namespace ProfulfilmentSharp.Entities.Requests
             return $@"
                 <imports>
                    <import type='order' operation='{request.Operation}' externalReference='{request.ExternalReference}'>
-                    state={request.State}
-                    validated={request.Validated}
-                    paymentTransactionInfo={request.PaymentTransactionInfo}
                     customerComment={request.CustomerComment}
                     totalPriceNet={request.TotalPriceNet}
                     totalPriceGross={request.TotalPriceGross}
                     totalTax={request.TotalTax}
-                    totalTaxCode={request.TotalTaxCode}
                     shippingPriceNet={request.ShippingPriceNet}
                     shippingPriceGross={request.ShippingPriceGross}
                     shippingTax={request.ShippingTax}
-                    shippingTaxCode={request.ShippingTaxCode}
                     currency={request.Currency}
                     currencyUnits={request.CurrencyUnits}
                     placed={request.Placed}
                     authorised={request.Authorised}
-                    source={request.Source}
                     userDefined1={request.UserDefined1}
                     userDefined2={request.UserDefined2}
                     userDefined3={request.UserDefined3}
@@ -83,14 +77,8 @@ namespace ProfulfilmentSharp.Entities.Requests
                 var item = $@"
                     orderLine.{itemCount}.product.externalReference={lineItem.ProductExternalReference}
                     orderLine.{itemCount}.quantity={lineItem.Quantity}
-                    orderLine.{itemCount}.state={lineItem.State}
                     orderLine.{itemCount}.totalPriceNet={lineItem.TotalPriceNet}
                     orderLine.{itemCount}.totalPriceGross={lineItem.TotalPriceGross}
-                    orderLine.{itemCount}.totalTax={lineItem.TotalTax}
-                    orderLine.{itemCount}.totalTaxCode={lineItem.TotalTaxCode}                    orderLine.{itemCount}.unitPriceNet={lineItem.UnitPriceNet}
-                    orderLine.{itemCount}.unitPriceGross={lineItem.UnitPriceGross}
-                    orderLine.{itemCount}.unitTax={lineItem.UnitTax}
-                    orderLine.{itemCount}.unitTaxCode={lineItem.UnitTaxCode}
                     orderLine.{itemCount}.userDefined1={lineItem.UserDefined1}
                     orderLine.{itemCount}.userDefined2={lineItem.UserDefined2}
                     orderLine.{itemCount}.userDefined3={lineItem.UserDefined3}
@@ -119,10 +107,7 @@ namespace ProfulfilmentSharp.Entities.Requests
                     deliveryPostCode={delivery.PostCode}
                     deliveryContactName={delivery.ContactName}
                     deliveryEmailAddress={delivery.EmailAddress}
-                    deliveryDayPhoneNumber={delivery.DayPhoneNumber}
-                    deliveryEveningPhoneNumber={delivery.EveningPhoneNumber}
                     deliveryMobilePhoneNumber={delivery.MobilePhoneNumber}
-                    deliveryFaxNumber={delivery.FaxNumber}
                     deliveryCompanyName={delivery.CompanyName}";
         }
 
@@ -153,7 +138,6 @@ namespace ProfulfilmentSharp.Entities.Requests
                     shipment.earliestShipDate={shipment.EarliestShipDate}
                     shipment.deliveryInstruction={shipment.DeliveryInstruction}
                     shipment.despatchComment={shipment.DespatchComment}
-                    shipment.despatchReference={shipment.DespatchReference}
                     shipment.weight={shipment.Weight}
                     shipment.weightUnits={shipment.WeightUnits}
                     shipment.itemCount={shipment.ItemCount}
@@ -164,13 +148,10 @@ namespace ProfulfilmentSharp.Entities.Requests
                     shipment.addressLine5={shipment.AddressLine5}
                     shipment.addressLine6={shipment.AddressLine6}
                     shipment.countryCode={shipment.CountryCode}
-                    shipment.postCode={shipment.PostCode}
                     shipment.contactName={shipment.ContactName}
                     shipment.emailAddress={shipment.EmailAddress}
                     shipment.dayPhoneNumber={shipment.DayPhoneNumber}
-                    shipment.eveningPhoneNumber={shipment.EveningPhoneNumber}
                     shipment.mobilePhoneNumber={shipment.MobilePhoneNumber}
-                    shipment.faxNumber={shipment.FaxNumber}
                     shipment.companyName={shipment.CompanycourierName}
                     shipment.userDefined1={shipment.UserDefined1}
                     shipment.userDefined2={shipment.UserDefined2}
@@ -178,7 +159,6 @@ namespace ProfulfilmentSharp.Entities.Requests
                     shipment.userDefined4={shipment.UserDefined4}
                     shipment.userDefined5={shipment.UserDefined5}
                     shipment.deliverySuggestionCode={shipment.DeliverySuggestionCode}
-                    shipment.deliverySuggestionName={shipment.DeliverySuggestionName}
                     shipment.orderItem={shipment.OrderItem}";
         }
 

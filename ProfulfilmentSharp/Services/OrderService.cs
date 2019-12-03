@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using ProfulfilmentSharp.Entities;
 using ProfulfilmentSharp.Entities.Requests;
 using ProfulfilmentSharp.Entities.Responses;

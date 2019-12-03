@@ -34,17 +34,8 @@ namespace ProfulfilmentSharp.Entities.Requests
         [XmlElement(ElementName = "deliveryEmailAddress")]
         public string EmailAddress { get; set; }
 
-        [XmlElement(ElementName = "deliveryDayPhoneNumber")]
-        public string DayPhoneNumber { get; set; }
-
-        [XmlElement(ElementName = "deliveryEveningPhoneNumber")]
-        public string EveningPhoneNumber { get; set; }
-
         [XmlElement(ElementName = "deliveryMobilePhoneNumber")]
         public string MobilePhoneNumber { get; set; }
-
-        [XmlElement(ElementName = "deliveryFaxNumber")]
-        public string FaxNumber { get; set; }
 
         [XmlElement(ElementName = "deliveryCompanyName")]
         public string CompanyName { get; set; }

@@ -16,21 +16,6 @@ namespace ProfulfilmentSharp.Entities.Requests
         [XmlAttribute(AttributeName = "externalReference")]
         public string ExternalReference { get; set; }
 
-        /// <summary>
-        /// One of a predefined list of values which may be used to control how an order is processed.Normally, it is best not to set this value, instead leaving this job to the OrderFlow import mapping script, for instance 'created'
-        /// </summary>
-        [XmlElement(ElementName = "state")]
-        public string State { get; set; }
-
-        [XmlElement(ElementName = "validated")]
-        public bool Validated { get; set; }
-
-        /// <summary>
-        /// for instance, 'Environment dependent'
-        /// </summary>
-        [XmlElement(ElementName = "paymentTransactionInfo")]
-        public string PaymentTransactionInfo { get; set; }
-
         [XmlElement(ElementName = "customerComment")]
         public string CustomerComment { get; set; }
 
@@ -56,12 +41,6 @@ namespace ProfulfilmentSharp.Entities.Requests
         /// </summary>
         [XmlElement(ElementName = "partialOrder")]
         public bool PartialOrder { get; set; }
-
-        /// <summary>
-        /// One of a list of values which may be used to control the information shown on customer paperwork, for instance 'T0', 'T1', 'T2'
-        /// </summary>
-        [XmlElement(ElementName = "totalTaxCode")]
-        public string TotalTaxCode { get; set; }
 
         /// <summary>
         /// The net amount for the shipping charge for the order
@@ -94,12 +73,6 @@ namespace ProfulfilmentSharp.Entities.Requests
         /// </summary>
         [XmlElement(ElementName = "goodTaxCode")]
         public string GoodTaxCode { get; set; }
-
-        /// <summary>
-        /// One of a list of values which may be used to control the information shown on customer paperwork, for instance 'T0', 'T1', 'T2'
-        /// </summary>
-        [XmlElement(ElementName = "shippingTaxCode")]
-        public string ShippingTaxCode { get; set; }
 
         /// <summary>
         /// One of a predefined list of values (usually based on ISO 4217) which may be used to control the information shown on customer paperwork,
@@ -137,12 +110,6 @@ namespace ProfulfilmentSharp.Entities.Requests
         /// </summary>
         [XmlElement(ElementName = "authorised")]
         public string Authorised { get; set; }
-
-        /// <summary>
-        /// A string which identifies the original source of the order. Can be used within OrderFlow to remap order to a different channel.
-        /// </summary>
-        [XmlElement(ElementName = "source")]
-        public string Source { get; set; }
 
         [XmlElement(ElementName = "userDefined1")]
         public string UserDefined1 { get; set; }
