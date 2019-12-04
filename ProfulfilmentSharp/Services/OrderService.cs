@@ -73,7 +73,10 @@ namespace ProfulfilmentSharp.Services
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            var requestUrl = PrepareRequestUrl($"remoteorder/shipment/despatches.xml?channel={request.Channel}&from={request.From}&to={request.To}");
+
+            var requestUrl = PrepareRequestUrl(
+                $"remoteorder/shipment/despatches.xml?channel={request.Channel}&from={request.From}" +
+                $"&to={request.To}&includeOrderLines={request.IncludeOrderLines}");
             response.DispatchedShipments = ExecuteGetRequest<DispatchedShipments>(requestUrl, HttpMethod.Get);
             return response;
         }

@@ -4,6 +4,11 @@ namespace ProfulfilmentSharp.Entities.Requests
 {
     public class DispatchedShipmentRequest
     {
+        public DispatchedShipmentRequest()
+        {
+            IncludeOrderLines = true;
+        }
+
         /// <summary>
         /// the channel under consideration
         /// </summary>
