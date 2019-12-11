@@ -34,6 +34,8 @@ namespace ProfulfilmentSharp.Entities.Requests
                         userDefined4={product.UserDefined4} 
                         userDefined5={product.UserDefined5}  
                         activated={product.Activated} 
+                        barcode={product.Barcode}
+                        colour={product.Colour}
                     </import> 
                 </imports>
                 ";
