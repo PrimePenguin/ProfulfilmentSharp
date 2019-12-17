@@ -35,6 +35,12 @@ namespace ProfulfilmentSharp.Entities.Events
         public string Authorisation { get; set; }
         [XmlAttribute(AttributeName = "orderReference")]
         public string OrderReference { get; set; }
+
+        [XmlAttribute(AttributeName = "note")]
+        public string Note { get; set; }
+
+        [XmlAttribute(AttributeName = "organisation")]
+        public string Organisation { get; set; }
     }
 
     [XmlRoot(ElementName = "detail")]

@@ -56,6 +56,12 @@ namespace ProfulfilmentSharp.Entities.Events
         public string ExternalReference { get; set; }
         [XmlAttribute(AttributeName = "state")]
         public string State { get; set; }
+
+        [XmlAttribute(AttributeName = "channel")]
+        public string Channel { get; set; }
+
+        [XmlAttribute(AttributeName = "organisation")]
+        public string Organisation { get; set; }
     }
 
     [XmlRoot(ElementName = "detail")]

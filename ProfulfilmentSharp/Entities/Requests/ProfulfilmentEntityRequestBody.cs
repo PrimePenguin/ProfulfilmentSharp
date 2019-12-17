@@ -172,8 +172,7 @@ namespace ProfulfilmentSharp.Entities.Requests
                         externalReference = '{request.ExternalReference}'>
                         purchaseOrder.supplierReference = {request.SupplierReference}
                         purchaseOrder.supplier = {request.Supplier}
-                        purchaseOrder.site = {request.Site}
-                        purchaseOrder.campaign = {request.Campaign}
+                        purchaseOrder.expectedDeliveryDate = {request.ExpectedDeliveryDate}
                         {SupplierOrderProducts(request.PurchaseOrderProducts)}
                     </import>
                   </imports>";
@@ -231,27 +230,6 @@ namespace ProfulfilmentSharp.Entities.Requests
                 itemCount++;
             }
             return sb.ToString();
-        }
-
-        public static string InventoryPush(InventoryPushRequest request)
-        {
-            var product = request.Product;
-            return $@"
-                <inventory messageId='{request.MessageId}'>
-                    <product
-                    inventoryId = '{product.InventoryId}'
-                    sequenceId = '{product.SequenceId}'
-                    externalReference ='{product.ExternalReference}'
-                    organisation = '{product.Organisation}'
-                    site = '{product.Site}'
-                    total = '{product.Total}'
-                    allocated ='{product.Allocated}'
-                    available = '{product.Available}'
-                    frozen = '{product.Frozen}'
-                    onOrder = '{product.OnOrder}'
-                    lastStockChangeId = '{product.LastStockChangeId}'
-                    lastLineRequirementChangeId = '{product.LastLineRequirementChangeId}'/>
-                </ inventory > ";
         }
 
         public static string Campaign(CampaignImport request)

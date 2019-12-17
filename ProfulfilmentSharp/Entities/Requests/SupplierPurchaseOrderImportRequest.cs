@@ -6,9 +6,6 @@ namespace ProfulfilmentSharp.Entities.Requests
     [XmlRoot(ElementName = "import")]
     public class PurchaseOrderRequest
     {
-        [XmlAttribute(AttributeName = "type")]
-        public string Type { get; set; }
-
         [XmlAttribute(AttributeName = "operation")]
         public string Operation { get; set; }
 
@@ -21,11 +18,8 @@ namespace ProfulfilmentSharp.Entities.Requests
         [XmlElement(ElementName = "purchaseOrder.supplier")]
         public string Supplier { get; set; }
 
-        [XmlElement(ElementName = "purchaseOrder.site")]
-        public string Site { get; set; }
-
-        [XmlElement(ElementName = "purchaseOrder.campaign")]
-        public string Campaign { get; set; }
+        [XmlElement(ElementName = "purchaseOrder.expectedDeliveryDate")]
+        public string ExpectedDeliveryDate { get; set; }
 
         [XmlElement(ElementName = "purchaseOrder.products")]
         public List<PurchaseOrderProduct> PurchaseOrderProducts { get; set; }
