@@ -38,13 +38,16 @@ namespace ProfulfilmentSharp.Entities.Events
         public string Courier { get; set; }
         [XmlAttribute(AttributeName = "despatchReference")]
         public string DespatchReference { get; set; }
+
+        [XmlAttribute(AttributeName = "courierService")]
+        public string CourierService { get; set; }
     }
 
     [XmlRoot(ElementName = "shipments")]
     public class Shipments
     {
         [XmlElement(ElementName = "shipment")]
-        public Shipment Shipment { get; set; }
+        public List<Shipment> Shipment { get; set; }
     }
 
     [XmlRoot(ElementName = "order")]
