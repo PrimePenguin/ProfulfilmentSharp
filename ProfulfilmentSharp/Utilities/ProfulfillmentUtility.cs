@@ -19,7 +19,7 @@ namespace ProfulfilmentSharp.Utilities
             try
             {
                 var inventory = productService.GetInventory(channel, externalReference);
-                return inventory.Products.Count >= 0;
+                return inventory.Products == null || inventory.Products.Count >= 0;
             }
             catch (Exception)
             {

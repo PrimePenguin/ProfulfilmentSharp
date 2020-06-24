@@ -32,6 +32,7 @@ namespace ProfulfilmentSharp.Services
             if (!string.IsNullOrEmpty(externalReferences)) requestUrl.Append($"&externalReferences={externalReferences}");
 
             var result = ExecuteGetRequest<Inventory>(requestUrl.ToString(), HttpMethod.Get);
+            if (result == null) return response;
             response.Products = result.Products;
             return response;
         }
