@@ -28,6 +28,9 @@ namespace ProfulfilmentSharp.Entities
         [XmlElement(ElementName = "shipment.despatchComment")]
         public string DespatchComment { get; set; }
 
+        [XmlElement(ElementName = "shipment.despatchReference")]
+        public string DespatchReference { get; set; }
+
         [XmlElement(ElementName = "shipment.weight")]
         public float Weight { get; set; }
 
@@ -60,6 +63,9 @@ namespace ProfulfilmentSharp.Entities
 
         [XmlElement(ElementName = "shipment.countryCode")]
         public string CountryCode { get; set; }
+
+        [XmlElement(ElementName = "shipment.postCode")]
+        public string PostCode { get; set; }
 
         [XmlElement(ElementName = "shipment.contactName")]
         public string ContactName { get; set; }
@@ -96,6 +102,9 @@ namespace ProfulfilmentSharp.Entities
         /// </summary>
         [XmlElement(ElementName = "shipment.deliverySuggestionCode")]
         public string DeliverySuggestionCode { get; set; }
+
+        [XmlElement(ElementName = "shipment.deliverySuggestionName")]
+        public string DeliverySuggestionName { get; set; }
 
         [XmlElement(ElementName = "shipment.orderItem")]
         public string OrderItem { get; set; }

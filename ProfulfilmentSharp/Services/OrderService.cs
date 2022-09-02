@@ -21,21 +21,21 @@ namespace ProfulfilmentSharp.Services
         public virtual CreateOrUpdateEntityRootResponse CreateOrder(ImportOrderRequest request, string channel)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var validatorResponse = GetValidatorResponse(request);
+            var validatorResponse = request.Validate();
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
 
-            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(
-                new ProfulfilmentRequestContent
-                {
-                    RequestUri = PrepareRequestUrl("remoteorder/imports/importitems.xml"),
-                    PostData = ProfulfilmentEntityRequestBody.Order(request),
-                    HttpMethod = HttpMethod.Post,
-                    Headers = new Dictionary<string, string> { { "channel", channel } }
-                });
+            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
+            {
+                RequestUri = PrepareRequestUrl("remoteorder/imports/importitems.xml"),
+                PostData = ProfulfilmentEntityRequest.GenerateOrderPayload(request, channel),
+                HttpMethod = HttpMethod.Post,
+                Headers = new Dictionary<string, string> { { "channel", channel } }
+            });
+
             return response;
         }
 
@@ -47,7 +47,7 @@ namespace ProfulfilmentSharp.Services
         public virtual OrderRootResponse GetOrder(OrderByReferenceRequest request)
         {
             var response = new OrderRootResponse();
-            var validatorResponse = GetValidatorResponse(request);
+            var validatorResponse = request.Validate();
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
@@ -67,7 +67,7 @@ namespace ProfulfilmentSharp.Services
         public virtual RootDispatchedShipments GetDispatchedShipmentByTimeStamps(DispatchedShipmentRequest request)
         {
             var response = new RootDispatchedShipments();
-            var validatorResponse = GetValidatorResponse(request);
+            var validatorResponse = request.Validate();
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
@@ -90,16 +90,16 @@ namespace ProfulfilmentSharp.Services
         public virtual CreateOrUpdateEntityRootResponse CreateSupplierPurchaseOrder(SupplierPurchaseOrderImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var validatorResponse = GetValidatorResponse(request);
+            var validatorResponse = request.Validate();
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
+            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
             {
                 RequestUri = PrepareRequestUrl("remotewarehouse/imports/importitems.xml"),
-                PostData = ProfulfilmentEntityRequestBody.SupplierPurchaseOrder(request.PurchaseOrder),
+                PostData = ProfulfilmentEntityRequest.SupplierPurchaseOrder(request.PurchaseOrder),
                 HttpMethod = HttpMethod.Post,
                 Headers = new Dictionary<string, string> { { "organisation", organization } }
             });
@@ -115,42 +115,40 @@ namespace ProfulfilmentSharp.Services
         public virtual CreateOrUpdateEntityRootResponse CreateReturn(ReturnImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var validatorResponse = GetValidatorResponse(request);
+            var validatorResponse = request.Validate();
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
+            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
             {
                 RequestUri = PrepareRequestUrl("remotewarehouse/imports/importitems.xml"),
-                PostData = ProfulfilmentEntityRequestBody.Return(request),
+                PostData = ProfulfilmentEntityRequest.Return(request),
                 HttpMethod = HttpMethod.Post,
                 Headers = new Dictionary<string, string> { { "organisation", organization } }
             });
             return response;
         }
 
-        /// <summary>
-        /// The process of deleting or cancelling an order is usually driven by the third party application in which the order was first generated.The process should attempt to delete the order within the OrderFlow system before changing the status of the order within the third party system
-        /// </summary>
-        /// <returns></returns>
         public virtual CancelOrderRootResponse CancelOrder(CancelOrderRequest request, string channel)
         {
             var response = new CancelOrderRootResponse();
-            var validatorResponse = GetValidatorResponse(request);
+            var validatorResponse = request.Validate();
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
+
             var requestUrl = PrepareRequestUrl($"remoteorder/order/cancel.xml?externalReference={request.ExternalReference}&cancelChangesExternalReference={request.CancelChangesExternalReference}");
-            response.CancelOrderResponse = ExecutePostRequest<CancelOrderResponse>(new ProfulfilmentRequestContent
+            response.CancelOrderResponse = ExecutePostRequest<CancelOrderResponse>(new RequestContent
             {
                 RequestUri = requestUrl,
                 HttpMethod = HttpMethod.Post,
                 Headers = new Dictionary<string, string> { { "channel", channel } }
             });
+
             return response;
         }
 
@@ -162,7 +160,7 @@ namespace ProfulfilmentSharp.Services
         public virtual PendingShipmentRootRequest GetPendingShipments(PendingShipmentRequest request)
         {
             var response = new PendingShipmentRootRequest();
-            var validatorResponse = GetValidatorResponse(request);
+            var validatorResponse = request.Validate();
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
@@ -182,16 +180,16 @@ namespace ProfulfilmentSharp.Services
         public virtual CreateOrUpdateEntityRootResponse CreateCampaign(CampaignImportRequest request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var validatorResponse = GetValidatorResponse(request);
+            var validatorResponse = request.Validate();
             if (!validatorResponse.IsValidRequest)
             {
                 response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
+            response.CreateOrUpdateEntityResponse = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
             {
                 RequestUri = PrepareRequestUrl("remotewarehouse/imports/importitems.xml"),
-                PostData = ProfulfilmentEntityRequestBody.Campaign(request.Import),
+                PostData = ProfulfilmentEntityRequest.Campaign(request.Import),
                 HttpMethod = HttpMethod.Post,
                 Headers = new Dictionary<string, string> { { "organisation", organization } }
             });

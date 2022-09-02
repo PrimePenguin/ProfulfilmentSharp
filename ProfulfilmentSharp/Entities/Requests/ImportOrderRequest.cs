@@ -8,27 +8,19 @@ namespace ProfulfilmentSharp.Entities.Requests
     public class ImportOrderRequest
     {
         [XmlAttribute(AttributeName = "type")] public string Type { get; set; }
-
-        [XmlAttribute(AttributeName = "operation")]
-        public string Operation { get; set; }
+        [XmlAttribute(AttributeName = "operation")] public string Operation { get; set; }
 
         [Required]
-        [XmlAttribute(AttributeName = "externalReference")]
-        public string ExternalReference { get; set; }
-
-        [XmlElement(ElementName = "customerComment")]
-        public string CustomerComment { get; set; }
-
-        [XmlElement(ElementName = "totalPriceNet")]
-        public double?  TotalPriceNet { get; set; }
-
-        [XmlElement(ElementName = "totalPriceGross")]
-        public double?  TotalPriceGross { get; set; }
-
-        [XmlElement(ElementName = "totalPriceTax")]
-        public double?  TotalPriceTax { get; set; }
-
+        [XmlAttribute(AttributeName = "externalReference")] public string ExternalReference { get; set; }
+        [XmlElement(ElementName = "state")] public string State { get; set; }
+        [XmlElement(ElementName = "paymentTransactionInfo")] public double? PaymentTransactionInfo { get; set; }
+        [XmlElement(ElementName = "customerComment")] public string CustomerComment { get; set; }
+        [XmlElement(ElementName = "totalPriceNet")] public double?  TotalPriceNet { get; set; }
+        [XmlElement(ElementName = "totalPriceGross")] public double?  TotalPriceGross { get; set; }
+        [XmlElement(ElementName = "totalPriceTax")] public double?  TotalPriceTax { get; set; }
         [XmlElement(ElementName = "totalTax")] public double?  TotalTax { get; set; }
+        [XmlElement(ElementName = "source")] public string Source { get; set; }
+        [XmlElement(ElementName = "channel")] public string Channel { get; set; }
 
         /// <summary>
         /// pass a payment gateway identifier to OrderFlow, if required, for instance 'google_checkout'

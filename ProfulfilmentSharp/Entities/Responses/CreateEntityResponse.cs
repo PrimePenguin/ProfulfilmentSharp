@@ -16,11 +16,7 @@ namespace ProfulfilmentSharp.Entities.Responses
 
     public class CreateOrUpdateEntityRootResponse
     {
-        public CreateOrUpdateEntityRootResponse()
-        {
-            CreateOrUpdateEntityResponse = null;
-        }
         public string ValidationError { get; set; }
-        public CreateOrUpdateEntityResponse CreateOrUpdateEntityResponse { get; set; }
+        public CreateOrUpdateEntityResponse CreateOrUpdateEntityResponse { get; set; } = null;
     }
 }

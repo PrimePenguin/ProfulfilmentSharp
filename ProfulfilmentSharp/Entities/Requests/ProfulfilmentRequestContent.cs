@@ -3,7 +3,7 @@ using System.Net.Http;
 
 namespace ProfulfilmentSharp.Entities.Requests
 {
-    public  class ProfulfilmentRequestContent
+    public  class RequestContent
     {
         public string  RequestUri { get; set; }
         public string PostData { get; set; }

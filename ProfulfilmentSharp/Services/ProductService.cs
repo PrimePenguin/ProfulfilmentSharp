@@ -43,24 +43,25 @@ namespace ProfulfilmentSharp.Services
         /// <param name="request">product data to be created or updated</param>
         /// <param name="organization">Organization Name</param>
         /// <returns></returns>
-        public virtual CreateOrUpdateEntityRootResponse CreateOrUpdateProduct(ImportProductRequest request, string organization)
+        public virtual CreateOrUpdateEntityRootResponse CreateOrUpdateProduct(ProfulfilmentProduct request, string organization)
         {
             var response = new CreateOrUpdateEntityRootResponse();
-            var product = request.Import;
-            var validatorResponse = GetValidatorResponse(product);
-            if (validatorResponse.IsValidRequest)
+            var validatorResponse = request.Validate();
+            if (!validatorResponse.IsValidRequest)
             {
-                var result = ExecutePostRequest<CreateOrUpdateEntityResponse>(new ProfulfilmentRequestContent
-                {
-                    RequestUri = PrepareRequestUrl("remotewarehouse/imports/importitems.xml"),
-                    PostData = ProfulfilmentEntityRequestBody.Product(product),
-                    HttpMethod = HttpMethod.Post,
-                    Headers = new Dictionary<string, string> { { "organisation", organization } }
-                });
-                response.CreateOrUpdateEntityResponse = result;
+                response.ValidationError = validatorResponse.ValidationErrors;
                 return response;
             }
-            response.ValidationError = validatorResponse.ValidationErrors;
+
+            var result = ExecutePostRequest<CreateOrUpdateEntityResponse>(new RequestContent
+            {
+                RequestUri = PrepareRequestUrl("remotewarehouse/imports/importitems.xml"),
+                PostData = ProfulfilmentEntityRequest.GenerateProductPayload(request),
+                HttpMethod = HttpMethod.Post,
+                Headers = new Dictionary<string, string> { { "organisation", organization } }
+            });
+
+            response.CreateOrUpdateEntityResponse = result;
             return response;
         }
     }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -8,7 +6,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using ProfulfilmentSharp.Entities.Requests;
-using ProfulfilmentSharp.Entities.Responses;
 
 namespace ProfulfilmentSharp.Services
 {
@@ -33,10 +30,7 @@ namespace ProfulfilmentSharp.Services
 
         public NetworkCredential BuildNetworkCredentials() => new NetworkCredential(UserName, Password);
 
-        protected CredentialCache GetRequestCredentials(string requestUri)
-        {
-            return new CredentialCache { { new Uri(requestUri), "Basic", NetworkCredential } };
-        }
+        protected CredentialCache GetAuthHeaderCredentials(string requestUri) => new CredentialCache { { new Uri(requestUri), "Basic", NetworkCredential } };
 
         public string PrepareRequestUrl(string path) => $"https://wms.profulfilment.com/orderflow/test/{path}";
 
@@ -44,27 +38,26 @@ namespace ProfulfilmentSharp.Services
         {
             var request = WebRequest.Create(requestUri);
             request.Method = method.ToString();
-            request.Credentials = GetRequestCredentials(requestUri);
+            request.Credentials = GetAuthHeaderCredentials(requestUri);
             var response = GetResponse<T>(request);
             return response;
         }
 
-        protected T ExecutePostRequest<T>(ProfulfilmentRequestContent profulfilmentRequestContent)
+        protected T ExecutePostRequest<T>(RequestContent requestContent)
         {
-            var request = WebRequest.Create(profulfilmentRequestContent.RequestUri);
-            request.Credentials = GetRequestCredentials(profulfilmentRequestContent.RequestUri);
-            request.Method = profulfilmentRequestContent.HttpMethod.ToString();
+            var request = WebRequest.Create(requestContent.RequestUri);
+            request.Credentials = GetAuthHeaderCredentials(requestContent.RequestUri);
+            request.Method = requestContent.HttpMethod.ToString();
 
-            if (profulfilmentRequestContent.PostData != null)
+            if (requestContent.PostData != null)
             {
-                Data = Encoding.ASCII.GetBytes(profulfilmentRequestContent.PostData);
+                Data = Encoding.ASCII.GetBytes(requestContent.PostData);
                 request.ContentLength = Data.Length;
             }
 
-            // add request headers if any
-            if (profulfilmentRequestContent.Headers != null)
+            if (requestContent.Headers != null)
             {
-                foreach (var (key, value) in profulfilmentRequestContent.Headers) request.Headers.Add(key, value);
+                foreach (var (key, value) in requestContent.Headers) request.Headers.Add(key, value);
             }
 
             if (Data != null)
@@ -111,24 +104,6 @@ namespace ProfulfilmentSharp.Services
             var serializer = new XmlSerializer(typeof(T));
             var result = (T)serializer.Deserialize(reader);
             return result;
-        }
-
-        public static ValidatorResponse GetValidatorResponse(object instance)
-        {
-            var response = new ValidatorResponse();
-            var context = new ValidationContext(instance, null, null);
-            var results = new List<ValidationResult>();
-            var isValid = Validator.TryValidateObject(instance, context, results);
-            if (!isValid)
-            {
-                var errorBuilder = new StringBuilder();
-                foreach (var validationResult in results) errorBuilder.Append(validationResult.ErrorMessage + ",");
-                response.ValidationErrors = errorBuilder.ToString();
-                errorBuilder.Clear();
-                return response;
-            }
-            response.IsValidRequest = true;
-            return response;
         }
     }
 }
