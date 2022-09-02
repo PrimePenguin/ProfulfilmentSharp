@@ -3,14 +3,14 @@ pull_requests:
   do_not_increment_build_number: true
 image: Visual Studio 2017
 build_script:
-- ps: ./scripts/build.ps1
+  - ps: ./scripts/build.ps1
 environment:
   APPVEYOR_REPO_TAG: true
 artifacts:
-- path: QuickbutikSharp/bin/Release/netstandard1.4
-  name: netstandard16
-- path: QuickbutikSharp/bin/Release/net45
-  name: net461
+  - path: QuickbutikSharp/bin/Release/netstandard1.4
+    name: netstandard16
+  - path: QuickbutikSharp/bin/Release/net45
+    name: net461
 skip_commits:
   message: /\[skip\]/
   files:
@@ -20,8 +20,8 @@ skip_commits:
     - .vscode/*
     - changelog.md
 deploy:
-- provider: NuGet
-  api_key:
-    secure: HUO32QGP5kP1nQ3g7KED44Hj6yiNOe8JR7mR1JIoj/Qp+Z+OI9swWg/gzybKGUx0
-  on:
-    branch: master
+  - provider: NuGet
+    api_key:
+      secure: rKMx/GMvHjSKWMkjOr2Bzo+ht7il6JXI0lJdtBhVVaEqCMsv28lXrDGT7tqIFMNq
+    on:
+      branch: master
