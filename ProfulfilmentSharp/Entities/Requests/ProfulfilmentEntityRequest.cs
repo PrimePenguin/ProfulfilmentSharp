@@ -73,9 +73,9 @@ namespace ProfulfilmentSharp.Entities.Requests
         {
             var sb = new StringBuilder();
             var index = 1;
-            var initial = $"orderLine.{index}.";
             foreach (var lineItem in lineItems)
             {
+                var initial = $"orderLine.{index}.";
                 var item = $@"
                     {initial}product.externalReference={lineItem.ProductExternalReference}
                     {initial}quantity={lineItem.Quantity}
