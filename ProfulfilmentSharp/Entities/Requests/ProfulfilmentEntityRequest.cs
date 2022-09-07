@@ -51,7 +51,7 @@ namespace ProfulfilmentSharp.Entities.Requests
                     currencyUnits={request.CurrencyUnits}
                     placed={request.Placed}
                     authorised={request.Placed}
-                    channel={channel}                    shipment.orderItem=entity:order                    {GetDeliveryDetails(request.Delivery)}{GetOrderLineItems(request.LineItems)}
+                    channel={channel}                    shipment.deliverySuggestionCode={request.UserDefined1}                    shipment.orderItem=entity:order                    {GetDeliveryDetails(request.Delivery)}{GetOrderLineItems(request.LineItems)}
                     </import> 
                 </imports>
              ";
