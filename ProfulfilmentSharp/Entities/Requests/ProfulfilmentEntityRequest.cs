@@ -27,11 +27,6 @@ namespace ProfulfilmentSharp.Entities.Requests
                         costTaxCode={product.CostTaxCode}
                         costCurrency={product.CostCurrency} 
                         costCurrencyUnits={product.CostCurrencyUnits}
-                        userDefined1={product.UserDefined1} 
-                        userDefined2={product.UserDefined2} 
-                        userDefined3={product.UserDefined3} 
-                        userDefined4={product.UserDefined4} 
-                        userDefined5={product.UserDefined5}  
                         activated={product.Activated} 
                         barcode={product.Barcode}
                     </import> 
@@ -56,12 +51,7 @@ namespace ProfulfilmentSharp.Entities.Requests
                     currencyUnits={request.CurrencyUnits}
                     placed={request.Placed}
                     authorised={request.Placed}
-                    channel={channel}
-                    userDefined1={request.UserDefined1}
-                    userDefined2={request.UserDefined2}
-                    userDefined3={request.UserDefined3}
-                    userDefined4={request.UserDefined4}
-                    userDefined5={request.UserDefined5}                    shipment.deliverySuggestionCode={request.UserDefined1}                    shipment.orderItem=entity:order                    {GetDeliveryDetails(request.Delivery)}{GetOrderLineItems(request.LineItems)}
+                    channel={channel}                    shipment.orderItem=entity:order                    {GetDeliveryDetails(request.Delivery)}{GetOrderLineItems(request.LineItems)}
                     </import> 
                 </imports>
              ";
@@ -82,12 +72,7 @@ namespace ProfulfilmentSharp.Entities.Requests
                     {initial}totalPriceNet={lineItem.TotalPriceNet}
                     {initial}totalPriceGross={lineItem.TotalPriceGross}
                     {initial}state=created
-                    {initial}totalPriceGross={lineItem.TotalPriceGross}
-                    {initial}userDefined1={lineItem.UserDefined1}
-                    {initial}userDefined2={lineItem.UserDefined2}
-                    {initial}userDefined3={lineItem.UserDefined3}
-                    {initial}userDefined4={lineItem.UserDefined4}
-                    {initial}userDefined5={lineItem.UserDefined5}                                    {initial}shipment=entity:shipment
+                    {initial}totalPriceGross={lineItem.TotalPriceGross}                                   {initial}shipment=entity:shipment
                     orderAttribute.{index}.name={lineItem.AttributeName}
                     orderAttribute.{index}.title={lineItem.AttributeTitle}
                     orderAttribute.{index}.value={lineItem.AttributeValue}
