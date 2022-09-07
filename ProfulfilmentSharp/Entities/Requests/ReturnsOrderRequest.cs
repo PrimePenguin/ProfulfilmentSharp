@@ -1,6 +1,6 @@
 ﻿namespace ProfulfilmentSharp.Entities.Requests
 {
-    public class DispatchedShipmentRequest : BaseFilter
+    public class ReturnsOrderRequest : BaseFilter
     {
     }
 }

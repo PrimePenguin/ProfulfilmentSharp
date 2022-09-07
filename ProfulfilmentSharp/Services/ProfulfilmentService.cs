@@ -34,15 +34,6 @@ namespace ProfulfilmentSharp.Services
 
         public string PrepareRequestUrl(string path) => $"https://wms.profulfilment.com/orderflow/test/{path}";
 
-        protected T ExecuteGetRequest<T>(string requestUri, HttpMethod method)
-        {
-            var request = WebRequest.Create(requestUri);
-            request.Method = method.ToString();
-            request.Credentials = GetAuthHeaderCredentials(requestUri);
-            var response = GetResponse<T>(request);
-            return response;
-        }
-
         protected T ExecutePostRequest<T>(RequestContent requestContent)
         {
             var request = WebRequest.Create(requestContent.RequestUri);
@@ -68,6 +59,15 @@ namespace ProfulfilmentSharp.Services
                 }
             }
 
+            var response = GetResponse<T>(request);
+            return response;
+        }
+
+        protected T ExecuteGetRequest<T>(string requestUri, HttpMethod method)
+        {
+            var request = WebRequest.Create(requestUri);
+            request.Method = method.ToString();
+            request.Credentials = GetAuthHeaderCredentials(requestUri);
             var response = GetResponse<T>(request);
             return response;
         }
@@ -100,7 +100,7 @@ namespace ProfulfilmentSharp.Services
         /// <returns>Deserialized serializable object of type T.</returns>
         public T Deserialize<T>(XmlDocument document)
         {
-            XmlReader reader = new XmlNodeReader(document);
+            var reader = new XmlNodeReader(document);
             var serializer = new XmlSerializer(typeof(T));
             var result = (T)serializer.Deserialize(reader);
             return result;

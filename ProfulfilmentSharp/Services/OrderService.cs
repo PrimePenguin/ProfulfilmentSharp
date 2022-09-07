@@ -64,7 +64,7 @@ namespace ProfulfilmentSharp.Services
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public virtual RootDispatchedShipments GetDispatchedShipmentByTimeStamps(DispatchedShipmentRequest request)
+        public virtual RootDispatchedShipments GetDispatchedShipments(DispatchedShipmentRequest request)
         {
             var response = new RootDispatchedShipments();
             var validatorResponse = request.Validate();
@@ -74,11 +74,21 @@ namespace ProfulfilmentSharp.Services
                 return response;
             }
 
-            var requestUrl = PrepareRequestUrl(
-                $"remoteorder/shipment/despatches.xml?channel={request.Channel}&from={request.From}" +
-                $"&to={request.To}&includeOrderLines={request.IncludeOrderLines}");
+            var requestUrl = PrepareRequestUrl($"remoteorder/shipment/despatches.xml?channel={request.Channel}&from={request.From}&to={request.To}&includeOrderLines={request.IncludeOrderLines}");
             response.DispatchedShipments = ExecuteGetRequest<DispatchedShipments>(requestUrl, HttpMethod.Get);
             return response;
+        }
+
+        public virtual PendingOrdersResponse GetPendingOrders(DispatchedShipmentRequest request)
+        {
+            var requestUrl = PrepareRequestUrl($"remoteorder/shipment/pending.xml?channel={request.Channel}");
+            return ExecuteGetRequest<PendingOrdersResponse>(requestUrl, HttpMethod.Get);
+        }
+            
+        public virtual ProcessedReturns GetProcessedReturnsFromReport(ReturnsOrderRequest request)
+        {
+            var requestUrl = PrepareRequestUrl($"remote/report.xml?reportKey=return_line_api_report&startDate={request.From}&endDate={request.To}");
+            return ExecuteGetRequest<ProcessedReturns>(requestUrl, HttpMethod.Post);
         }
 
         /// <summary>

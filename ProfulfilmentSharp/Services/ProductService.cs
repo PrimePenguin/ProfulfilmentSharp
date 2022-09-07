@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using ProfulfilmentSharp.Entities;
@@ -19,22 +20,17 @@ namespace ProfulfilmentSharp.Services
         /// </summary>
         /// <param name="channel">channel name</param>
         /// <param name="externalReferences">product codes for which to retrieve inventories (optional) If no externalReferences are supplied the system will return all products associated with the channel, for which inventory exists.</param>
-        /// <param name="site">if multi-site inventory is enabled, then identifies the site for which inventory is required (mandatory) </param>
         /// <returns></returns>
-        public virtual Inventory GetInventory(string channel, string externalReferences = null, string site = null)
+        public virtual List<Product> GetInventory(string channel, string externalReferences = null)
         {
-            var response = new Inventory();
             if (string.IsNullOrEmpty(channel)) throw new Exception("Channel name is required.");
 
             var requestUrl = new StringBuilder();
             requestUrl.Append(PrepareRequestUrl($"remotewarehouse/inventory.xml?channel={channel}"));
-            if (!string.IsNullOrEmpty(site)) requestUrl.Append($"&site={site}");
             if (!string.IsNullOrEmpty(externalReferences)) requestUrl.Append($"&externalReferences={externalReferences}");
 
             var result = ExecuteGetRequest<Inventory>(requestUrl.ToString(), HttpMethod.Get);
-            if (result == null) return response;
-            response.Products = result.Products;
-            return response;
+            return result?.Products.Where(c => !string.IsNullOrEmpty(c.ExternalReference)).ToList();
         }
 
         /// <summary>

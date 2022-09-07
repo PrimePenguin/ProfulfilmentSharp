@@ -12,11 +12,7 @@ namespace ProfulfilmentSharp.Entities.Responses
 
     public class RootDispatchedShipments
     {
-        public RootDispatchedShipments()
-        {
-            DispatchedShipments = null;
-        }
         public string ValidationError { get; set; }
-        public DispatchedShipments DispatchedShipments { get; set; }
+        public DispatchedShipments DispatchedShipments { get; set; } = null;
     }
 }
