@@ -25,9 +25,9 @@ namespace ProfulfilmentSharp.Entities.Responses
         [XmlElement(ElementName = "completed")]
         public string Completed { get; set; }
         [XmlElement(ElementName = "lineQuantity")]
-        public string LineQuantity { get; set; }
+        public int LineQuantity { get; set; }
         [XmlElement(ElementName = "lineOutstandingQuantity")]
-        public string LineOutstandingQuantity { get; set; }
+        public int LineOutstandingQuantity { get; set; }
         [XmlElement(ElementName = "lineState")]
         public string LineState { get; set; }
         [XmlElement(ElementName = "sku")]

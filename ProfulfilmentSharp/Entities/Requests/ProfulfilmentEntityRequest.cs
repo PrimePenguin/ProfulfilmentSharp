@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace ProfulfilmentSharp.Entities.Requests
@@ -136,14 +137,16 @@ namespace ProfulfilmentSharp.Entities.Requests
             var itemCount = 1;
             foreach (var product in products)
             {
+                var initial = $"purchaseOrderLine.{itemCount}.";
                 var item = $@"
-                    purchaseOrderLine.{itemCount}.product = {product.Product}
-                    purchaseOrderLine.{itemCount}.quantity = {product.Quantity}
-                    purchaseOrderLine.{itemCount}.purchaseOrder = {product.PurchaseOrder}
-                    purchaseOrderLine.{itemCount}.externalReference = {product.ProductExternalReference}";
+                    {initial}product = {product.Product}
+                    {initial}quantity = {product.Quantity}
+                    {initial}purchaseOrder = {product.PurchaseOrder}
+                    {initial}externalReference = {product.ProductExternalReference}";
                 sb.Append(item);
                 itemCount++;
             }
+
             return sb.ToString();
         }
 
@@ -180,6 +183,7 @@ namespace ProfulfilmentSharp.Entities.Requests
                 sb.Append(item);
                 itemCount++;
             }
+
             return sb.ToString();
         }
 
